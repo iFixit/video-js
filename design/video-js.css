@@ -79,11 +79,11 @@ body.vjs-full-window {
   visibility: hidden !important;
   opacity: 0 !important;
 
-  -webkit-transition: visibility 0s linear 1.5s,opacity 1.5s linear;
-  -moz-transition: visibility 0s linear 1.5s,opacity 1.5s linear;
-  -ms-transition: visibility 0s linear 1.5s,opacity 1.5s linear;
-  -o-transition: visibility 0s linear 1.5s,opacity 1.5s linear;
-  transition: visibility 0s linear 1.5s,opacity 1.5s linear;
+  -webkit-transition: visibility 0s linear 0.3s,opacity 0.3s linear;
+  -moz-transition: visibility 0s linear 0.3s,opacity 0.3s linear;
+  -ms-transition: visibility 0s linear 0.3s,opacity 0.3s linear;
+  -o-transition: visibility 0s linear 0.3s,opacity 0.3s linear;
+  transition: visibility 0s linear 0.3s,opacity 0.3s linear;
 }
 
 /* DEFAULT SKIN (override in another file to create new skins)
