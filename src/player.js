@@ -823,7 +823,15 @@ _V_.Player = _V_.Component.extend({
   controls: function(){ return this.options.controls; },
   poster: function(){ return this.techGet("poster"); },
   error: function(){ return this.techGet("error"); },
-  ended: function(){ return this.techGet("ended"); }
+  ended: function(){ return this.techGet("ended"); },
+
+  // iFixit Custom Methods
+
+  restart: function() {
+    this.currentTime(0);
+    this.pause();
+    this.play();    
+  },
 
   // Methods to add support for
   // networkState: function(){ return this.techCall("networkState"); },
