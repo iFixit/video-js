@@ -37,11 +37,13 @@ cat src/setup.js >> dist/video.js
 
 cat src/_end.js >> dist/video.js
 
-
 # Copy Files
 cp design/video-js.css dist/video-js.css
 cp design/video-js.png dist/video-js.png
 cp flash/video-js.swf dist/video-js.swf
+
+cp dist/video-js.css ./
+cp dist/video.js ./
 
 cp build/release-files/README.md dist/README.md
 cp build/release-files/demo.html dist/demo.html

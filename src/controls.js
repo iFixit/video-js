@@ -16,10 +16,11 @@ _V_.ControlBar = _V_.Component.extend({
     loadEvent: "play",
     components: {
       "playToggle": {},
-      "fullscreenToggle": {},
-      "currentTimeDisplay": {},
-      "timeDivider": {},
-      "durationDisplay": {},
+      //"fullscreenToggle": {},
+      //"currentTimeDisplay": {},
+      //"timeDivider": {},
+      //"durationDisplay": {},
+      "restartControl": {},
       "remainingTimeDisplay": {},
       "progressControl": {},
       "volumeControl": {},
@@ -546,7 +547,7 @@ _V_.SeekBar = _V_.Slider.extend({
 
       // Set property names to bar and handle to match with the parent Slider class is looking for
       "bar": { componentClass: "PlayProgressBar" },
-      "handle": { componentClass: "SeekHandle" }
+      //"handle": { componentClass: "SeekHandle" }
     }
   },
 

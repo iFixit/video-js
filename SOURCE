@@ -1,0 +1,7 @@
+Cloned from https://github.com/zencoder/video-js.git
+
+Branch: ifixit (branched off of stable)
+Version: 3.2.2
+Date cloned: 12/10/12
+Clone-er: @timothyasp
+Instructions: `./build.sh`
