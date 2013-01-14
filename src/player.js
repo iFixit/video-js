@@ -73,6 +73,8 @@ _V_.Player = _V_.Component.extend({
     this.addEvent("pause", this.onPause);
     this.addEvent("progress", this.onProgress);
     this.addEvent("error", this.onError);
+    if (this.options.onNoSources)
+       this.addEvent("nosources", this.options.onNoSources);
 
     // When the API is ready, loop through the components and add to the player.
     if (options.controls) {
@@ -100,11 +102,15 @@ _V_.Player = _V_.Component.extend({
           break;
         }
       }
+      this.trigger('nosources');
     } else {
       // Loop through playback technologies (HTML5, Flash) and check for support. Then load the best source.
       // A few assumptions here:
       //   All playback technologies respect preload false.
-      this.src(options.sources);
+      var result = this.src(options.sources);
+      if (!result) {
+         this.trigger('nosources', "No compatable sources were found");
+      }
     }
   },
 
@@ -748,6 +754,7 @@ _V_.Player = _V_.Component.extend({
         }
       } else {
         _V_.log("No compatible source and playback technology were found.")
+        return false;
       }
 
     // Case: Source object { src: "", type: "" ... }
