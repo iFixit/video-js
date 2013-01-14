@@ -1,46 +1,43 @@
-#! /bin/csh
+#! /bin/sh
 # Combines Source Files. In terminal, sh build.sh
 # It will put a new video.js file under dist/
 
 # Create dist directory if it doesn't already exist
 mkdir -p dist
 
-# FILES=../src/*
-# for f in $FILES
-# do
-#   echo "Processing $f file..."
-#   # take action on each file. $f store current file name
-#   cat $f
-# done
+echo > dist/video.js
 
-cat src/_begin.js > dist/video.js
+FILES=$(cat <<LIST
+src/_begin.js
+src/core.js
+src/lib.js
+src/json.js
+src/events.js
+src/component.js
+src/player.js
+src/tech.js
+src/controls.js
+src/tracks.js
+tech/html5/html5.js
+tech/flash/flash.js
+src/setup.js
+src/_end.js
+LIST
+)
 
-cat src/core.js >> dist/video.js
-cat src/lib.js >> dist/video.js
-cat src/json.js >> dist/video.js
-cat src/events.js >> dist/video.js
+for f in $FILES
+do
+  echo "Processing $f file..."
+  echo "
+// FILE: $f" >> dist/video.js 
+  cat $f >> dist/video.js
+done
 
-cat src/component.js >> dist/video.js
-cat src/player.js >> dist/video.js
-cat src/tech.js >> dist/video.js
-cat src/controls.js >> dist/video.js
-
-cat src/tracks.js >> dist/video.js
-
-# h5swf temporarily requires swfobject
-# cat flash/swfobject.js >> dist/video.js
-
-cat tech/html5/html5.js >> dist/video.js
-cat tech/flash/flash.js >> dist/video.js
-
-cat src/setup.js >> dist/video.js
-
-cat src/_end.js >> dist/video.js
 
 # Copy Files
 cp design/video-js.css dist/video-js.css
 cp design/video-js.png dist/video-js.png
-cp flash/video-js.swf dist/video-js.swf
+#cp flash/video-js.swf dist/video-js.swf
 
 cp dist/video-js.css ./
 cp dist/video.js ./
