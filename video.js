@@ -1,3 +1,6 @@
+
+
+// FILE: src/_begin.js
 /*!
 Video.js - HTML5 Video Player
 Version GENERATED_AT_BUILD
@@ -21,7 +24,9 @@ along with Video.js.  If not, see <http://www.gnu.org/licenses/>.
 
 // Self-executing function to prevent global vars and help with minification
 ;(function(window, undefined){
-  var document = window.document;// HTML5 Shiv. Must be in <head> to support older browsers.
+  var document = window.document;
+// FILE: src/core.js
+// HTML5 Shiv. Must be in <head> to support older browsers.
 document.createElement("video");document.createElement("audio");
 
 var VideoJS = function(id, addOptions, ready){
@@ -136,7 +141,9 @@ VideoJS.options = {
 // Set CDN Version of swf
 if (CDN_VERSION != "GENERATED_CDN_VSN") {
   _V_.options.flash.swf = "http://vjs.zencdn.net/"+CDN_VERSION+"/video-js.swf"
-}_V_.merge = function(obj1, obj2, safe){
+}
+// FILE: src/lib.js
+_V_.merge = function(obj1, obj2, safe){
   // Make sure second object exists
   if (!obj2) { obj2 = {}; };
 
@@ -222,14 +229,6 @@ _V_.extend({
     var classNames = element.className.split(" ");
     classNames.splice(classNames.indexOf(classToRemove),1);
     element.className = classNames.join(" ");
-  },
-  
-  remove: function(item, array){
-    if (!array) return;
-    var i = array.indexOf(item);
-    if (i != -1) { 
-      return array.splice(i, 1)
-    };
   },
 
   // Attempt to block the ability to select text while dragging controls
@@ -489,223 +488,8 @@ if ("getBoundingClientRect" in document.documentElement) {
     }
     return curleft;
   };
-}// ECMA-262 is the standard for javascript.
-// The following methods are impelemented EXACTLY as described in the standard (according to Mozilla Docs), and do not override the default method if one exists.
-// This may conflict with other libraries that modify the array prototype, but those libs should update to use the standard.
-
-// [].indexOf
-// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
-if (!Array.prototype.indexOf) {
-    Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
-        "use strict";
-        if (this === void 0 || this === null) {
-            throw new TypeError();
-        }
-        var t = Object(this);
-        var len = t.length >>> 0;
-        if (len === 0) {
-            return -1;
-        }
-        var n = 0;
-        if (arguments.length > 0) {
-            n = Number(arguments[1]);
-            if (n !== n) { // shortcut for verifying if it's NaN
-                n = 0;
-            } else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
-                n = (n > 0 || -1) * Math.floor(Math.abs(n));
-            }
-        }
-        if (n >= len) {
-            return -1;
-        }
-        var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
-        for (; k < len; k++) {
-            if (k in t && t[k] === searchElement) {
-                return k;
-            }
-        }
-        return -1;
-    }
 }
-
-// NOT NEEDED YET
-// [].lastIndexOf
-// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/lastIndexOf
-// if (!Array.prototype.lastIndexOf)
-// {
-//   Array.prototype.lastIndexOf = function(searchElement /*, fromIndex*/)
-//   {
-//     "use strict";
-// 
-//     if (this === void 0 || this === null)
-//       throw new TypeError();
-// 
-//     var t = Object(this);
-//     var len = t.length >>> 0;
-//     if (len === 0)
-//       return -1;
-// 
-//     var n = len;
-//     if (arguments.length > 1)
-//     {
-//       n = Number(arguments[1]);
-//       if (n !== n)
-//         n = 0;
-//       else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0))
-//         n = (n > 0 || -1) * Math.floor(Math.abs(n));
-//     }
-// 
-//     var k = n >= 0
-//           ? Math.min(n, len - 1)
-//           : len - Math.abs(n);
-// 
-//     for (; k >= 0; k--)
-//     {
-//       if (k in t && t[k] === searchElement)
-//         return k;
-//     }
-//     return -1;
-//   };
-// }
-
-
-// NOT NEEDED YET
-// Array forEach per ECMA standard https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/foreach
-// Production steps of ECMA-262, Edition 5, 15.4.4.18
-// Reference: http://es5.github.com/#x15.4.4.18
-// if ( !Array.prototype.forEach ) {
-// 
-//   Array.prototype.forEach = function( callback, thisArg ) {
-// 
-//     var T, k;
-// 
-//     if ( this == null ) {
-//       throw new TypeError( " this is null or not defined" );
-//     }
-// 
-//     // 1. Let O be the result of calling ToObject passing the |this| value as the argument.
-//     var O = Object(this);
-// 
-//     // 2. Let lenValue be the result of calling the Get internal method of O with the argument "length".
-//     // 3. Let len be ToUint32(lenValue).
-//     var len = O.length >>> 0;
-// 
-//     // 4. If IsCallable(callback) is false, throw a TypeError exception.
-//     // See: http://es5.github.com/#x9.11
-//     if ( {}.toString.call(callback) != "[object Function]" ) {
-//       throw new TypeError( callback + " is not a function" );
-//     }
-// 
-//     // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
-//     if ( thisArg ) {
-//       T = thisArg;
-//     }
-// 
-//     // 6. Let k be 0
-//     k = 0;
-// 
-//     // 7. Repeat, while k < len
-//     while( k < len ) {
-// 
-//       var kValue;
-// 
-//       // a. Let Pk be ToString(k).
-//       //   This is implicit for LHS operands of the in operator
-//       // b. Let kPresent be the result of calling the HasProperty internal method of O with argument Pk.
-//       //   This step can be combined with c
-//       // c. If kPresent is true, then
-//       if ( k in O ) {
-// 
-//         // i. Let kValue be the result of calling the Get internal method of O with argument Pk.
-//         kValue = O[ Pk ];
-// 
-//         // ii. Call the Call internal method of callback with T as the this value and
-//         // argument list containing kValue, k, and O.
-//         callback.call( T, kValue, k, O );
-//       }
-//       // d. Increase k by 1.
-//       k++;
-//     }
-//     // 8. return undefined
-//   };
-// }
-
-
-// NOT NEEDED YET
-// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/map
-// Production steps of ECMA-262, Edition 5, 15.4.4.19
-// Reference: http://es5.github.com/#x15.4.4.19
-// if (!Array.prototype.map) {
-//   Array.prototype.map = function(callback, thisArg) {
-// 
-//     var T, A, k;
-// 
-//     if (this == null) {
-//       throw new TypeError(" this is null or not defined");
-//     }
-// 
-//     // 1. Let O be the result of calling ToObject passing the |this| value as the argument.
-//     var O = Object(this);
-// 
-//     // 2. Let lenValue be the result of calling the Get internal method of O with the argument "length".
-//     // 3. Let len be ToUint32(lenValue).
-//     var len = O.length >>> 0;
-// 
-//     // 4. If IsCallable(callback) is false, throw a TypeError exception.
-//     // See: http://es5.github.com/#x9.11
-//     if ({}.toString.call(callback) != "[object Function]") {
-//       throw new TypeError(callback + " is not a function");
-//     }
-// 
-//     // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
-//     if (thisArg) {
-//       T = thisArg;
-//     }
-// 
-//     // 6. Let A be a new array created as if by the expression new Array(len) where Array is
-//     // the standard built-in constructor with that name and len is the value of len.
-//     A = new Array(len);
-// 
-//     // 7. Let k be 0
-//     k = 0;
-// 
-//     // 8. Repeat, while k < len
-//     while(k < len) {
-// 
-//       var kValue, mappedValue;
-// 
-//       // a. Let Pk be ToString(k).
-//       //   This is implicit for LHS operands of the in operator
-//       // b. Let kPresent be the result of calling the HasProperty internal method of O with argument Pk.
-//       //   This step can be combined with c
-//       // c. If kPresent is true, then
-//       if (k in O) {
-// 
-//         // i. Let kValue be the result of calling the Get internal method of O with argument Pk.
-//         kValue = O[ k ];
-// 
-//         // ii. Let mappedValue be the result of calling the Call internal method of callback
-//         // with T as the this value and argument list containing kValue, k, and O.
-//         mappedValue = callback.call(T, kValue, k, O);
-// 
-//         // iii. Call the DefineOwnProperty internal method of A with arguments
-//         // Pk, Property Descriptor {Value: mappedValue, Writable: true, Enumerable: true, Configurable: true},
-//         // and false.
-// 
-//         // In browsers that support Object.defineProperty, use the following:
-//         // Object.defineProperty(A, Pk, { value: mappedValue, writable: true, enumerable: true, configurable: true });
-// 
-//         // For best browser support, use the following:
-//         A[ k ] = mappedValue;
-//       }
-//       // d. Increase k by 1.
-//       k++;
-//     }
-// 
-//     // 9. return A
-//     return A;
-//   };      
-// }
+// FILE: src/json.js
 // Javascript JSON implementation
 // (Parse Method Only)
 // https://github.com/douglascrockford/JSON-js/blob/master/json2.js
@@ -760,6 +544,8 @@ if (!JSON) { JSON = {}; }
       };
   }
 }());
+
+// FILE: src/events.js
 // Event System (J.Resig - Secrets of a JS Ninja http://jsninja.com/ [Go read it, really])
 // (Book version isn't completely usable, so fixed some things and borrowed from jQuery where it's working)
 // 
@@ -777,7 +563,7 @@ _V_.extend({
   // It stores the handler function in a separate cache object
   // and adds a generic handler to the element's event,
   // along with a unique id (guid) to the element.
-  addEvent: function(elem, type, fn){
+  on: function(elem, type, fn){
     var data = _V_.getData(elem), handlers;
 
     // We only need to generate one handler per element
@@ -823,8 +609,10 @@ _V_.extend({
 
     handlers.push(fn);
   },
+  // Deprecated name for 'on' function
+  addEvent: function(){ return _V_.on.apply(this, arguments); },
 
-  removeEvent: function(elem, type, fn) {
+  off: function(elem, type, fn) {
     var data = _V_.getData(elem), handlers;
     // If no events exist, nothing to unbind
     if (!data.events) { return; }
@@ -856,6 +644,8 @@ _V_.extend({
 
     _V_.cleanUpEvents(elem, type);
   },
+  // Deprecated name for 'on' function
+  removeEvent: function(){ return _V_.off.apply(this, arguments); },
 
   cleanUpEvents: function(elem, type) {
     var data = _V_.getData(elem);
@@ -936,7 +726,7 @@ _V_.extend({
     return event;
   },
 
-  triggerEvent: function(elem, event) {
+  trigger: function(elem, event) {
     var data = _V_.getData(elem),
         parent = elem.parentNode || elem.ownerDocument,
         type = event.type || event,
@@ -989,10 +779,12 @@ _V_.extend({
     //   }
     // }
   },
-  
+  // Deprecated name for 'on' function
+  triggerEvent: function(){ return _V_.trigger.apply(this, arguments); },
+
   one: function(elem, type, fn) {
-    _V_.addEvent(elem, type, function(){
-      _V_.removeEvent(elem, type, arguments.callee)
+    _V_.on(elem, type, function(){
+      _V_.off(elem, type, arguments.callee)
       fn.apply(this, arguments);
     });
   }
@@ -1062,6 +854,8 @@ _V_.Event.props = "altKey attrChange attrName bubbles button cancelable charCode
 function returnTrue(){ return true; }
 function returnFalse(){ return false; }
 
+
+// FILE: src/component.js
 // Using John Resig's Class implementation http://ejohn.org/blog/simple-javascript-inheritance/
 // (function(){var initializing=false, fnTest=/xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/; _V_.Class = function(){}; _V_.Class.extend = function(prop) { var _super = this.prototype; initializing = true; var prototype = new this(); initializing = false; for (var name in prop) { prototype[name] = typeof prop[name] == "function" && typeof _super[name] == "function" && fnTest.test(prop[name]) ? (function(name, fn){ return function() { var tmp = this._super; this._super = _super[name]; var ret = fn.apply(this, arguments); this._super = tmp; return ret; }; })(name, prop[name]) : prop[name]; } function Class() { if ( !initializing && this.init ) this.init.apply(this, arguments); } Class.prototype = prototype; Class.constructor = Class; Class.extend = arguments.callee; return Class;};})();
 (function(){
@@ -1140,6 +934,10 @@ _V_.Component = _V_.Class.extend({
     if (options && options.components) {
       // Loop through components and add them to the player
       this.eachProp(options.components, function(name, opts){
+
+        // Allow for disabling default components
+        // e.g. _V_.options.components.posterImage = false
+        if (opts === false) return;
 
         // Allow waiting to add components until a specific event is called
         var tempAdd = this.proxy(function(){
@@ -1234,17 +1032,30 @@ _V_.Component = _V_.Class.extend({
 
   /* Events
   ================================================================================ */
-  addEvent: function(type, fn, uid){
-    return _V_.addEvent(this.el, type, _V_.proxy(this, fn));
+  on: function(type, fn, uid){
+    _V_.on(this.el, type, _V_.proxy(this, fn));
+    return this;
   },
-  removeEvent: function(type, fn){
-    return _V_.removeEvent(this.el, type, fn);
+  // Deprecated name for 'on' function
+  addEvent: function(){ return this.on.apply(this, arguments); },
+
+  off: function(type, fn){
+    _V_.off(this.el, type, fn);
+    return this;
   },
-  triggerEvent: function(type, e){
-    return _V_.triggerEvent(this.el, type, e);
+  // Deprecated name for 'off' function
+  removeEvent: function(){ return this.off.apply(this, arguments); },
+
+  trigger: function(type, e){
+    _V_.trigger(this.el, type, e);
+    return this;
   },
+  // Deprecated name for 'off' function
+  triggerEvent: function(){ return this.trigger.apply(this, arguments); },
+
   one: function(type, fn) {
     _V_.one(this.el, type, _V_.proxy(this, fn));
+    return this;
   },
 
   /* Ready - Trigger functions when component is ready
@@ -1276,7 +1087,7 @@ _V_.Component = _V_.Class.extend({
       this.readyQueue = [];
 
       // Allow for using event listeners also, in case you want to do something everytime a source is ready.
-      this.triggerEvent("ready");
+      this.trigger("ready");
     }
   },
 
@@ -1291,7 +1102,9 @@ _V_.Component = _V_.Class.extend({
   // More easily attach 'this' to functions
   proxy: function(fn, uid){  return _V_.proxy(this, fn, uid); }
 
-});/* UI Component- Base class for all UI objects
+});
+// FILE: src/player.js
+/* UI Component- Base class for all UI objects
 ================================================================================ */
 _V_.Player = _V_.Component.extend({
 
@@ -1307,9 +1120,6 @@ _V_.Player = _V_.Component.extend({
     _V_.merge(options, this.getVideoTagSettings()); // Override with Video Tag Options
     _V_.merge(options, addOptions); // Override/extend with options from setup call
 
-    // Add callback to ready queue
-    this.ready(ready);
-
     // Store controls setting, and then remove immediately so native controls don't flash.
     tag.removeAttribute("controls");
 
@@ -1319,39 +1129,42 @@ _V_.Player = _V_.Component.extend({
     // Make player findable on elements
     tag.player = el.player = this;
 
-    // Wrap video tag in div (el/box) container
-    tag.parentNode.insertBefore(el, tag);
-    el.appendChild(tag); // Breaks iPhone, fixed in HTML5 setup.
+    // Make sure tag ID exists
+    tag.id = tag.id || "vjs_video_" + _V_.guid++;
 
     // Give video tag properties to box
     // ID will now reference box, not the video tag
     this.id = el.id = tag.id;
     el.className = tag.className;
 
-    // Update tag id/class for use as HTML5 playback tech
-    tag.id += "_html5_api";
-    tag.className = "vjs-tech";
-
     // Make player easily findable by ID
     _V_.players[el.id] = this;
 
     // Make box use width/height of tag, or default 300x150
-    el.setAttribute("width", options.width);
-    el.setAttribute("height", options.height);
-
     // Enforce with CSS since width/height attrs don't work on divs
-    el.style.width = options.width+"px";
-    el.style.height = options.height+"px";
+    this.width(options.width, true); // (true) Skip resize listener on load
+    this.height(options.height, true);
+
+    // Update tag id/class for use as HTML5 playback tech
+    // Might think we should do this after embedding in container so .vjs-tech class 
+    // doesn't flash 100% width/height, but class only applies with .video-js parent
+    tag.id += "_html5_api";
+    tag.className = "vjs-tech";
 
     // Remove width/height attrs from tag so CSS can make it 100% width/height
     tag.removeAttribute("width");
     tag.removeAttribute("height");
 
+    // Wrap video tag in div (el/box) container
+    tag.parentNode.insertBefore(el, tag);
+    el.appendChild(tag); // Breaks iPhone, fixed in HTML5 setup.
+
     // Empty video tag sources and tracks so the built-in player doesn't use them also.
     if (tag.hasChildNodes()) {
-      for (var i=0,j=tag.childNodes;i<j.length;i++) {
-        if (j[i].nodeName == "SOURCE" || j[i].nodeName == "TRACK") {
-          tag.removeChild(j[i]);
+      var nrOfChildNodes = tag.childNodes.length;
+      for (var i=0,j=tag.childNodes;i<nrOfChildNodes;i++) {
+        if (j[0].nodeName.toLowerCase() == "source" || j[0].nodeName.toLowerCase() == "track") {
+          tag.removeChild(j[0]);
         }
       }
     }
@@ -1361,11 +1174,14 @@ _V_.Player = _V_.Component.extend({
 
     this.addClass("vjs-paused");
 
-    this.addEvent("ended", this.onEnded);
-    this.addEvent("play", this.onPlay);
-    this.addEvent("pause", this.onPause);
-    this.addEvent("progress", this.onProgress);
-    this.addEvent("error", this.onError);
+    this.on("ended", this.onEnded);
+    this.on("play", this.onPlay);
+    this.on("pause", this.onPause);
+    this.on("progress", this.onProgress);
+    this.on("durationchange", this.onDurationChange);
+    this.on("error", this.onError);
+    if (this.options.onNoSources)
+       this.on("nosources", this.options.onNoSources);
 
     // When the API is ready, loop through the components and add to the player.
     if (options.controls) {
@@ -1373,6 +1189,9 @@ _V_.Player = _V_.Component.extend({
         this.initComponents();
       });
     }
+
+    // Add callback to ready queue
+    this.ready(ready);
 
     // Tracks defined in tracks.js
     this.textTracks = [];
@@ -1393,16 +1212,17 @@ _V_.Player = _V_.Component.extend({
           break;
         }
       }
+      this.trigger('nosources');
     } else {
       // Loop through playback technologies (HTML5, Flash) and check for support. Then load the best source.
       // A few assumptions here:
       //   All playback technologies respect preload false.
-      this.src(options.sources);
+      var result = this.src(options.sources);
+      if (!result) {
+         this.trigger('nosources', "No compatable sources were found");
+      }
     }
   },
-
-  // Cache for video property values.
-  values: {},
 
   destroy: function(){
     // Ensure that tracking progress and time progress will stop and plater deleted
@@ -1431,11 +1251,14 @@ _V_.Player = _V_.Component.extend({
     options.autoplay = tag[getAttribute]("autoplay") !== null; // hasAttribute not IE <8 compatible
     options.loop = tag[getAttribute]("loop") !== null;
     options.muted = tag[getAttribute]("muted") !== null;
+    
+    options.width = tag[getAttribute]("width");
+    options.height = tag[getAttribute]("height");
 
     if (this.tag.hasChildNodes()) {
       for (var c,i=0,j=this.tag.childNodes;i<j.length;i++) {
         c = j[i];
-        if (c.nodeName == "SOURCE") {
+        if (c.nodeName.toLowerCase() == "source") {
           options.sources.push({
             src: c[getAttribute]('src'),
             type: c[getAttribute]('type'),
@@ -1443,7 +1266,7 @@ _V_.Player = _V_.Component.extend({
             title: c[getAttribute]('title')
           });
         }
-        if (c.nodeName == "TRACK") {
+        if (c.nodeName.toLowerCase() == "track") {
           options.tracks.push({
             src: c[getAttribute]("src"),
             kind: c[getAttribute]("kind"),
@@ -1548,7 +1371,7 @@ _V_.Player = _V_.Component.extend({
     // Watch for a native progress event call on the tech element
     // In HTML5, some older versions don't support the progress event
     // So we're assuming they don't, and turning off manual progress if they do.
-    this.tech.addEvent("progress", function(){
+    this.tech.on("progress", function(){
 
       // Remove this listener from the element
       this.removeEvent("progress", arguments.callee);
@@ -1572,10 +1395,10 @@ _V_.Player = _V_.Component.extend({
       // log(this.values.bufferEnd, this.buffered().end(0), this.duration())
       /* TODO: update for multiple buffered regions */
       if (this.values.bufferEnd < this.buffered().end(0)) {
-        this.triggerEvent("progress");
+        this.trigger("progress");
       } else if (this.bufferedPercent() == 1) {
         this.stopTrackingProgress();
-        this.triggerEvent("progress"); // Last update
+        this.trigger("progress"); // Last update
       }
     }), 500);
   },
@@ -1585,12 +1408,12 @@ _V_.Player = _V_.Component.extend({
   manualTimeUpdatesOn: function(){
     this.manualTimeUpdates = true;
 
-    this.addEvent("play", this.trackCurrentTime);
-    this.addEvent("pause", this.stopTrackingCurrentTime);
+    this.on("play", this.trackCurrentTime);
+    this.on("pause", this.stopTrackingCurrentTime);
     // timeupdate is also called by .currentTime whenever current time is set
 
     // Watch for native timeupdate event
-    this.tech.addEvent("timeupdate", function(){
+    this.tech.on("timeupdate", function(){
 
       // Remove this listener from the element
       this.removeEvent("timeupdate", arguments.callee);
@@ -1613,7 +1436,7 @@ _V_.Player = _V_.Component.extend({
   trackCurrentTime: function(){
     if (this.currentTimeInterval) { this.stopTrackingCurrentTime(); }
     this.currentTimeInterval = setInterval(_V_.proxy(this, function(){
-      this.triggerEvent("timeupdate");
+      this.trigger("timeupdate");
     }), 250); // 42 = 24 fps // 250 is what Webkit uses // FF uses 15
   },
 
@@ -1627,8 +1450,6 @@ _V_.Player = _V_.Component.extend({
       this.currentTime(0);
       this.play();
     } else {
-      this.pause();
-      this.currentTime(0);
       this.pause();
     }
   },
@@ -1646,8 +1467,14 @@ _V_.Player = _V_.Component.extend({
   onProgress: function(){
     // Add custom event for when source is finished downloading.
     if (this.bufferedPercent() == 1) {
-      this.triggerEvent("loadedalldata");
+      this.trigger("loadedalldata");
     }
+  },
+
+  // Update duration with durationchange event
+  // Allows for cacheing value instead of asking player each time.
+  onDurationChange: function(){
+    this.duration(this.techGet("duration"));
   },
 
   onError: function(e) {
@@ -1750,7 +1577,7 @@ _V_.Player = _V_.Component.extend({
       this.techCall("setCurrentTime", seconds);
 
       // Improve the accuracy of manual timeupdates
-      if (this.manualTimeUpdates) { this.triggerEvent("timeupdate"); }
+      if (this.manualTimeUpdates) { this.trigger("timeupdate"); }
 
       return this;
     }
@@ -1762,8 +1589,16 @@ _V_.Player = _V_.Component.extend({
 
   // http://dev.w3.org/html5/spec/video.html#dom-media-duration
   // Duration should return NaN if not available. ParseFloat will turn false-ish values to NaN.
-  duration: function(){
-    return parseFloat(this.techGet("duration"));
+  duration: function(seconds){
+    if (seconds !== undefined) {
+
+      // Cache the last set value for optimiized scrubbing (esp. Flash)
+      this.values.duration = parseFloat(seconds);
+
+      return this;
+    }
+
+    return this.values.duration;
   },
 
   // Calculates how much time is left. Not in spec, but useful.
@@ -1822,31 +1657,39 @@ _V_.Player = _V_.Component.extend({
 
   // http://dev.w3.org/html5/spec/dimension-attributes.html#attr-dim-height
   // Video tag width/height only work in pixels. No percents.
-  // We could potentially allow percents but won't for now until we can do testing around it.
-  width: function(width, skipListeners){
-    if (width !== undefined) {
-      this.el.width = width;
-      this.el.style.width = width+"px";
-
-      // skipListeners allows us to avoid triggering the resize event when setting both width and height
-      if (!skipListeners) { this.triggerEvent("resize"); }
-      return this;
-    }
-    return parseInt(this.el.getAttribute("width"));
+  // But allowing limited percents use. e.g. width() will return number+%, not computed width
+  width: function(num, skipListeners){
+    return this.dimension("width", num, skipListeners);
   },
-  height: function(height){
-    if (height !== undefined) {
-      this.el.height = height;
-      this.el.style.height = height+"px";
-      this.triggerEvent("resize");
-      return this;
-    }
-    return parseInt(this.el.getAttribute("height"));
+  height: function(num, skipListeners){
+    return this.dimension("height", num, skipListeners);
   },
   // Set both width and height at the same time.
   size: function(width, height){
     // Skip resize listeners on width for optimization
     return this.width(width, true).height(height);
+  },
+  dimension: function(widthOrHeight, num, skipListeners){
+    if (num !== undefined) {
+
+      // Cache on object to be returned. Shouldn't have any effect after CSS.
+      this.el[widthOrHeight] = num;
+
+      // Check if using percent width/height and adjust
+      if ((""+num).indexOf("%") !== -1) {
+        this.el.style[widthOrHeight] = num;
+      } else {
+        this.el.style[widthOrHeight] = num+"px";
+      }
+
+      // skipListeners allows us to avoid triggering the resize event when setting both width and height
+      if (!skipListeners) { this.trigger("resize"); }
+      return this;
+    }
+
+    // Returns cached width/height in attribute.
+    // Could make this return computed width and support %s. Not a small amount of work.
+    return parseInt(this.el.getAttribute(widthOrHeight));
   },
 
   // Check if current tech can support native fullscreen (e.g. with built in controls lik iOS, so not our flash swf)
@@ -1862,7 +1705,7 @@ _V_.Player = _V_.Component.extend({
     if (requestFullScreen) {
 
       // Trigger fullscreenchange event after change
-      _V_.addEvent(document, requestFullScreen.eventName, this.proxy(function(){
+      _V_.on(document, requestFullScreen.eventName, this.proxy(function(){
         this.isFullScreen = document[requestFullScreen.isFullScreen];
 
         // If cancelling fullscreen, remove event listener.
@@ -1870,7 +1713,7 @@ _V_.Player = _V_.Component.extend({
           _V_.removeEvent(document, requestFullScreen.eventName, arguments.callee);
         }
 
-        this.triggerEvent("fullscreenchange");
+        this.trigger("fullscreenchange");
       }));
 
       // Flash and other plugins get reloaded when you take their parent to fullscreen.
@@ -1880,7 +1723,7 @@ _V_.Player = _V_.Component.extend({
         this.pause();
         this.unloadTech();
 
-        _V_.addEvent(document, requestFullScreen.eventName, this.proxy(function(){
+        _V_.on(document, requestFullScreen.eventName, this.proxy(function(){
           _V_.removeEvent(document, requestFullScreen.eventName, arguments.callee);
           this.loadTech(this.techName, { src: this.values.src });
         }));
@@ -1892,11 +1735,11 @@ _V_.Player = _V_.Component.extend({
       }
 
     } else if (this.tech.supportsFullScreen()) {
-      this.triggerEvent("fullscreenchange");
+      this.trigger("fullscreenchange");
       this.techCall("enterFullScreen");
 
     } else {
-      this.triggerEvent("fullscreenchange");
+      this.trigger("fullscreenchange");
       this.enterFullWindow();
     }
 
@@ -1918,7 +1761,7 @@ _V_.Player = _V_.Component.extend({
        this.pause();
        this.unloadTech();
 
-       _V_.addEvent(document, requestFullScreen.eventName, this.proxy(function(){
+       _V_.on(document, requestFullScreen.eventName, this.proxy(function(){
          _V_.removeEvent(document, requestFullScreen.eventName, arguments.callee);
          this.loadTech(this.techName, { src: this.values.src })
        }));
@@ -1931,11 +1774,11 @@ _V_.Player = _V_.Component.extend({
 
     } else if (this.tech.supportsFullScreen()) {
      this.techCall("exitFullScreen");
-     this.triggerEvent("fullscreenchange");
+     this.trigger("fullscreenchange");
 
     } else {
      this.exitFullWindow();
-     this.triggerEvent("fullscreenchange");
+     this.trigger("fullscreenchange");
     }
 
     return this;
@@ -1949,7 +1792,7 @@ _V_.Player = _V_.Component.extend({
     this.docOrigOverflow = document.documentElement.style.overflow;
 
     // Add listener for esc key to exit fullscreen
-    _V_.addEvent(document, "keydown", _V_.proxy(this, this.fullWindowOnEscKey));
+    _V_.on(document, "keydown", _V_.proxy(this, this.fullWindowOnEscKey));
 
     // Hide any scroll bars
     document.documentElement.style.overflow = 'hidden';
@@ -1958,7 +1801,7 @@ _V_.Player = _V_.Component.extend({
     _V_.addClass(document.body, "vjs-full-window");
     _V_.addClass(this.el, "vjs-fullscreen");
 
-    this.triggerEvent("enterFullWindow");
+    this.trigger("enterFullWindow");
   },
   fullWindowOnEscKey: function(event){
     if (event.keyCode == 27) {
@@ -1983,7 +1826,7 @@ _V_.Player = _V_.Component.extend({
 
     // Resize the box, controller, and poster to original sizes
     // this.positionAll();
-    this.triggerEvent("exitFullWindow");
+    this.trigger("exitFullWindow");
   },
 
   selectSource: function(sources){
@@ -2041,6 +1884,7 @@ _V_.Player = _V_.Component.extend({
         }
       } else {
         _V_.log("No compatible source and playback technology were found.")
+        return false;
       }
 
     // Case: Source object { src: "", type: "" ... }
@@ -2197,6 +2041,8 @@ _V_.Player = _V_.Component.extend({
   }
 
 })();
+
+// FILE: src/tech.js
 /* Playback Technology - Base class for playback technologies
 ================================================================================ */
 _V_.PlaybackTech = _V_.Component.extend({
@@ -2224,9 +2070,1646 @@ _V_.apiMethods = "play,pause,paused,currentTime,setCurrentTime,duration,buffered
 _V_.each(_V_.apiMethods, function(methodName){
   _V_.PlaybackTech.prototype[methodName] = function(){
     throw new Error("The '"+methodName+"' method is not available on the playback technology's API");
+  };
+});
+// FILE: src/controls.js
+/* Control - Base class for all control elements
+================================================================================ */
+_V_.Control = _V_.Component.extend({
+
+  buildCSSClass: function(){
+    return "vjs-control " + this._super();
+  }
+
+});
+
+/* Control Bar
+================================================================================ */
+_V_.ControlBar = _V_.Component.extend({
+
+  options: {
+    loadEvent: "play",
+    components: {
+      "playToggle": {},
+      //"fullscreenToggle": {},
+      //"currentTimeDisplay": {},
+      //"timeDivider": {},
+      //"durationDisplay": {},
+      "restartControl": {},
+      "remainingTimeDisplay": {},
+      "progressControl": {},
+      "volumeControl": {},
+      "muteToggle": {}
+    }
+  },
+
+  init: function(player, options){
+    this._super(player, options);
+
+    player.one("play", this.proxy(function(){
+      this.fadeIn();
+      this.player.on("mouseover", this.proxy(this.fadeIn));
+      this.player.on("mouseout", this.proxy(this.fadeOut));
+    }));
+
+  },
+
+  createElement: function(){
+    return _V_.createElement("div", {
+      className: "vjs-controls"
+    });
+  },
+
+  fadeIn: function(){
+    this._super();
+    this.player.trigger("controlsvisible");
+  },
+
+  fadeOut: function(){
+    this._super();
+    this.player.trigger("controlshidden");
+  },
+
+  lockShowing: function(){
+    this.el.style.opacity = "1";
+  }
+
+});
+
+/* Button - Base class for all buttons
+================================================================================ */
+_V_.Button = _V_.Control.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+
+    this.on("click", this.onClick);
+    this.on("focus", this.onFocus);
+    this.on("blur", this.onBlur);
+  },
+
+  createElement: function(type, attrs){
+    // Add standard Aria and Tabindex info
+    attrs = _V_.merge({
+      className: this.buildCSSClass(),
+      innerHTML: '<div><span class="vjs-control-text">' + (this.buttonText || "Need Text") + '</span></div>',
+      role: "button",
+      tabIndex: 0
+    }, attrs);
+
+    return this._super(type, attrs);
+  },
+
+  // Click - Override with specific functionality for button
+  onClick: function(){},
+
+  // Focus - Add keyboard functionality to element
+  onFocus: function(){
+    _V_.on(document, "keyup", _V_.proxy(this, this.onKeyPress));
+  },
+
+  // KeyPress (document level) - Trigger click when keys are pressed
+  onKeyPress: function(event){
+    // Check for space bar (32) or enter (13) keys
+    if (event.which == 32 || event.which == 13) {
+      event.preventDefault();
+      this.onClick();
+    }
+  },
+
+  // Blur - Remove keyboard triggers
+  onBlur: function(){
+    _V_.off(document, "keyup", _V_.proxy(this, this.onKeyPress));
+  }
+
+});
+
+/* Play Button
+================================================================================ */
+_V_.PlayButton = _V_.Button.extend({
+
+  buttonText: "Play",
+
+  buildCSSClass: function(){
+    return "vjs-play-button " + this._super();
+  },
+
+  onClick: function(){
+    this.player.play();
+  }
+
+});
+
+/* Pause Button
+================================================================================ */
+_V_.PauseButton = _V_.Button.extend({
+
+  buttonText: "Pause",
+
+  buildCSSClass: function(){
+    return "vjs-pause-button " + this._super();
+  },
+
+  onClick: function(){
+    this.player.pause();
+  }
+
+});
+
+/* Play Toggle - Play or Pause Media
+================================================================================ */
+_V_.PlayToggle = _V_.Button.extend({
+
+  buttonText: "Play",
+
+  init: function(player, options){
+    this._super(player, options);
+
+    player.on("play", _V_.proxy(this, this.onPlay));
+    player.on("pause", _V_.proxy(this, this.onPause));
+  },
+
+  buildCSSClass: function(){
+    return "vjs-play-control " + this._super();
+  },
+
+  // OnClick - Toggle between play and pause
+  onClick: function(){
+    if (this.player.paused()) {
+      this.player.play();
+    } else {
+      this.player.pause();
+    }
+  },
+
+  // OnPlay - Add the vjs-playing class to the element so it can change appearance
+  onPlay: function(){
+    _V_.removeClass(this.el, "vjs-paused");
+    _V_.addClass(this.el, "vjs-playing");
+  },
+
+  // OnPause - Add the vjs-paused class to the element so it can change appearance
+  onPause: function(){
+    _V_.removeClass(this.el, "vjs-playing");
+    _V_.addClass(this.el, "vjs-paused");
+  }
+
+});
+
+
+/* Fullscreen Toggle Behaviors
+================================================================================ */
+_V_.FullscreenToggle = _V_.Button.extend({
+
+  buttonText: "Fullscreen",
+
+  buildCSSClass: function(){
+    return "vjs-fullscreen-control " + this._super();
+  },
+
+  onClick: function(){
+    if (!this.player.isFullScreen) {
+      this.player.requestFullScreen();
+    } else {
+      this.player.cancelFullScreen();
+    }
+  }
+
+});
+
+/* Big Play Button
+================================================================================ */
+_V_.BigPlayButton = _V_.Button.extend({
+  init: function(player, options){
+    this._super(player, options);
+
+    player.on("play", _V_.proxy(this, this.hide));
+    player.on("ended", _V_.proxy(this, this.show));
+  },
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-big-play-button",
+      innerHTML: "<span></span>"
+    });
+  },
+
+  onClick: function(){
+    // Go back to the beginning if big play button is showing at the end.
+    // Have to check for current time otherwise it might throw a 'not ready' error.
+    if(this.player.currentTime()) {
+      this.player.currentTime(0);
+    }
+    this.player.play();
   }
 });
 
+/* Loading Spinner
+================================================================================ */
+_V_.LoadingSpinner = _V_.Component.extend({
+  init: function(player, options){
+    this._super(player, options);
+
+    player.on("canplay", _V_.proxy(this, this.hide));
+    player.on("canplaythrough", _V_.proxy(this, this.hide));
+    player.on("playing", _V_.proxy(this, this.hide));
+    player.on("seeked", _V_.proxy(this, this.hide));
+
+    player.addEvent("seeking", _V_.proxy(this, this.show));
+
+    // in some browsers seeking does not trigger the 'playing' event,
+    // so we also need to trap 'seeked' if we are going to set a
+    // 'seeking' event
+    player.addEvent("seeked", _V_.proxy(this, this.hide));
+
+    player.addEvent("error", _V_.proxy(this, this.show));
+
+    // Not showing spinner on stalled any more. Browsers may stall and then not trigger any events that would remove the spinner.
+    // Checked in Chrome 16 and Safari 5.1.2. http://help.videojs.com/discussions/problems/883-why-is-the-download-progress-showing
+    // player.on("stalled", _V_.proxy(this, this.show));
+
+    player.on("waiting", _V_.proxy(this, this.show));
+  },
+
+  createElement: function(){
+
+    var classNameSpinner, innerHtmlSpinner;
+
+    if ( typeof this.player.el.style.WebkitBorderRadius == "string"
+         || typeof this.player.el.style.MozBorderRadius == "string"
+         || typeof this.player.el.style.KhtmlBorderRadius == "string"
+         || typeof this.player.el.style.borderRadius == "string")
+      {
+        classNameSpinner = "vjs-loading-spinner";
+        innerHtmlSpinner = "<div class='ball1'></div><div class='ball2'></div><div class='ball3'></div><div class='ball4'></div><div class='ball5'></div><div class='ball6'></div><div class='ball7'></div><div class='ball8'></div>";
+      } else {
+        classNameSpinner = "vjs-loading-spinner-fallback";
+        innerHtmlSpinner = "";
+      }
+
+    return this._super("div", {
+      className: classNameSpinner,
+      innerHTML: innerHtmlSpinner
+    });
+  }
+});
+
+/* Time
+================================================================================ */
+_V_.CurrentTimeDisplay = _V_.Component.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+
+    player.on("timeupdate", _V_.proxy(this, this.updateContent));
+  },
+
+  createElement: function(){
+    var el = this._super("div", {
+      className: "vjs-current-time vjs-time-controls vjs-control"
+    });
+
+    this.content = _V_.createElement("div", {
+      className: "vjs-current-time-display",
+      innerHTML: '0:00'
+    });
+
+    el.appendChild(_V_.createElement("div").appendChild(this.content));
+    return el;
+  },
+
+  updateContent: function(){
+    // Allows for smooth scrubbing, when player can't keep up.
+    var time = (this.player.scrubbing) ? this.player.values.currentTime : this.player.currentTime();
+    this.content.innerHTML = _V_.formatTime(time, this.player.duration());
+  }
+
+});
+
+_V_.DurationDisplay = _V_.Component.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+
+    player.on("timeupdate", _V_.proxy(this, this.updateContent));
+  },
+
+  createElement: function(){
+    var el = this._super("div", {
+      className: "vjs-duration vjs-time-controls vjs-control"
+    });
+
+    this.content = _V_.createElement("div", {
+      className: "vjs-duration-display",
+      innerHTML: '0:00'
+    });
+
+    el.appendChild(_V_.createElement("div").appendChild(this.content));
+    return el;
+  },
+
+  updateContent: function(){
+    if (this.player.duration()) { this.content.innerHTML = _V_.formatTime(this.player.duration()); }
+  }
+
+});
+
+// Time Separator (Not used in main skin, but still available, and could be used as a 'spare element')
+_V_.TimeDivider = _V_.Component.extend({
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-time-divider",
+      innerHTML: '<div><span>/</span></div>'
+    });
+  }
+
+});
+
+_V_.RemainingTimeDisplay = _V_.Component.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+
+    player.on("timeupdate", _V_.proxy(this, this.updateContent));
+  },
+
+  createElement: function(){
+    var el = this._super("div", {
+      className: "vjs-remaining-time vjs-time-controls vjs-control"
+    });
+
+    this.content = _V_.createElement("div", {
+      className: "vjs-remaining-time-display",
+      innerHTML: '-0:00'
+    });
+
+    el.appendChild(_V_.createElement("div").appendChild(this.content));
+    return el;
+  },
+
+  updateContent: function(){
+    if (this.player.duration()) { this.content.innerHTML = "-"+_V_.formatTime(this.player.remainingTime()); }
+
+    // Allows for smooth scrubbing, when player can't keep up.
+    // var time = (this.player.scrubbing) ? this.player.values.currentTime : this.player.currentTime();
+    // this.content.innerHTML = _V_.formatTime(time, this.player.duration());
+  }
+
+});
+
+/* Slider - Parent for seek bar and volume slider
+================================================================================ */
+_V_.Slider = _V_.Component.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+
+    player.on(this.playerEvent, _V_.proxy(this, this.update));
+
+    this.on("mousedown", this.onMouseDown);
+    this.on("focus", this.onFocus);
+    this.on("blur", this.onBlur);
+
+    this.player.on("controlsvisible", this.proxy(this.update));
+
+    // This is actually to fix the volume handle position. http://twitter.com/#!/gerritvanaaken/status/159046254519787520
+    // this.player.one("timeupdate", this.proxy(this.update));
+
+    this.update();
+  },
+
+  createElement: function(type, attrs) {
+    attrs = _V_.merge({
+      role: "slider",
+      "aria-valuenow": 0,
+      "aria-valuemin": 0,
+      "aria-valuemax": 100,
+      tabIndex: 0
+    }, attrs);
+
+    return this._super(type, attrs);
+  },
+
+  onMouseDown: function(event){
+    event.preventDefault();
+    _V_.blockTextSelection();
+
+    _V_.on(document, "mousemove", _V_.proxy(this, this.onMouseMove));
+    _V_.on(document, "mouseup", _V_.proxy(this, this.onMouseUp));
+
+    this.onMouseMove(event);
+  },
+
+  onMouseUp: function(event) {
+    _V_.unblockTextSelection();
+    _V_.off(document, "mousemove", this.onMouseMove, false);
+    _V_.off(document, "mouseup", this.onMouseUp, false);
+
+    this.update();
+  },
+
+  update: function(){
+    // If scrubbing, we could use a cached value to make the handle keep up with the user's mouse.
+    // On HTML5 browsers scrubbing is really smooth, but some flash players are slow, so we might want to utilize this later.
+    // var progress =  (this.player.scrubbing) ? this.player.values.currentTime / this.player.duration() : this.player.currentTime() / this.player.duration();
+
+    var barProgress,
+        progress = this.getPercent();
+        handle = this.handle,
+        bar = this.bar;
+
+    // Protect against no duration and other division issues
+    if (isNaN(progress)) { progress = 0; }
+
+    barProgress = progress;
+
+    // If there is a handle, we need to account for the handle in our calculation for progress bar
+    // so that it doesn't fall short of or extend past the handle.
+    if (handle) {
+
+      var box = this.el,
+          boxWidth = box.offsetWidth,
+
+          handleWidth = handle.el.offsetWidth,
+
+          // The width of the handle in percent of the containing box
+          // In IE, widths may not be ready yet causing NaN
+          handlePercent = (handleWidth) ? handleWidth / boxWidth : 0,
+
+          // Get the adjusted size of the box, considering that the handle's center never touches the left or right side.
+          // There is a margin of half the handle's width on both sides.
+          boxAdjustedPercent = 1 - handlePercent;
+
+          // Adjust the progress that we'll use to set widths to the new adjusted box width
+          adjustedProgress = progress * boxAdjustedPercent,
+
+          // The bar does reach the left side, so we need to account for this in the bar's width
+          barProgress = adjustedProgress + (handlePercent / 2);
+
+      // Move the handle from the left based on the adjected progress
+      handle.el.style.left = _V_.round(adjustedProgress * 100, 2) + "%";
+    }
+
+    // Set the new bar width
+    bar.el.style.width = _V_.round(barProgress * 100, 2) + "%";
+  },
+
+  calculateDistance: function(event){
+    var box = this.el,
+        boxX = _V_.findPosX(box),
+        boxW = box.offsetWidth,
+        handle = this.handle;
+
+    if (handle) {
+      var handleW = handle.el.offsetWidth;
+
+      // Adjusted X and Width, so handle doesn't go outside the bar
+      boxX = boxX + (handleW / 2);
+      boxW = boxW - handleW;
+    }
+
+    // Percent that the click is through the adjusted area
+    return Math.max(0, Math.min(1, (event.pageX - boxX) / boxW));
+  },
+
+  onFocus: function(event){
+    _V_.on(document, "keyup", _V_.proxy(this, this.onKeyPress));
+  },
+
+  onKeyPress: function(event){
+    if (event.which == 37) { // Left Arrow
+      event.preventDefault();
+      this.stepBack();
+    } else if (event.which == 39) { // Right Arrow
+      event.preventDefault();
+      this.stepForward();
+    }
+  },
+
+  onBlur: function(event){
+    _V_.off(document, "keyup", _V_.proxy(this, this.onKeyPress));
+  }
+});
+
+
+/* Progress
+================================================================================ */
+
+// Progress Control: Seek, Load Progress, and Play Progress
+_V_.ProgressControl = _V_.Component.extend({
+
+  options: {
+    components: {
+      "seekBar": {}
+    }
+  },
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-progress-control vjs-control"
+    });
+  }
+
+});
+
+// Seek Bar and holder for the progress bars
+_V_.SeekBar = _V_.Slider.extend({
+
+  options: {
+    components: {
+      "loadProgressBar": {},
+
+      // Set property names to bar and handle to match with the parent Slider class is looking for
+      "bar": { componentClass: "PlayProgressBar" },
+      //"handle": { componentClass: "SeekHandle" }
+    }
+  },
+
+  playerEvent: "timeupdate",
+
+  init: function(player, options){
+    this._super(player, options);
+  },
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-progress-holder"
+    });
+  },
+
+  getPercent: function(){
+    return this.player.currentTime() / this.player.duration();
+  },
+
+  onMouseDown: function(event){
+    this._super(event);
+
+    this.player.scrubbing = true;
+
+    this.videoWasPlaying = !this.player.paused();
+    this.player.pause();
+  },
+
+  onMouseMove: function(event){
+    var newTime = this.calculateDistance(event) * this.player.duration();
+
+    // Don't let video end while scrubbing.
+    if (newTime == this.player.duration()) { newTime = newTime - 0.1; }
+
+    // Set new time (tell player to seek to new time)
+    this.player.currentTime(newTime);
+  },
+
+  onMouseUp: function(event){
+    this._super(event);
+
+    this.player.scrubbing = false;
+    if (this.videoWasPlaying) {
+      this.player.play();
+    }
+  },
+
+  stepForward: function(){
+    this.player.currentTime(this.player.currentTime() + 1);
+  },
+
+  stepBack: function(){
+    this.player.currentTime(this.player.currentTime() - 1);
+  }
+
+});
+
+// Load Progress Bar
+_V_.LoadProgressBar = _V_.Component.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+    player.on("progress", _V_.proxy(this, this.update));
+  },
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-load-progress",
+      innerHTML: '<span class="vjs-control-text">Loaded: 0%</span>'
+    });
+  },
+
+  update: function(){
+    if (this.el.style) { this.el.style.width = _V_.round(this.player.bufferedPercent() * 100, 2) + "%"; }
+  }
+
+});
+
+// Play Progress Bar
+_V_.PlayProgressBar = _V_.Component.extend({
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-play-progress",
+      innerHTML: '<span class="vjs-control-text">Progress: 0%</span>'
+    });
+  }
+
+});
+
+// Seek Handle
+// SeekBar Behavior includes play progress bar, and seek handle
+// Needed so it can determine seek position based on handle position/size
+_V_.SeekHandle = _V_.Component.extend({
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-seek-handle",
+      innerHTML: '<span class="vjs-control-text">00:00</span>'
+    });
+  }
+
+});
+
+/* Volume Scrubber
+================================================================================ */
+// Progress Control: Seek, Load Progress, and Play Progress
+_V_.VolumeControl = _V_.Component.extend({
+
+  options: {
+    components: {
+      "volumeBar": {}
+    }
+  },
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-volume-control vjs-control"
+    });
+  }
+
+});
+
+_V_.VolumeBar = _V_.Slider.extend({
+
+  options: {
+    components: {
+      "bar": { componentClass: "VolumeLevel" },
+      "handle": { componentClass: "VolumeHandle" }
+    }
+  },
+
+  playerEvent: "volumechange",
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-volume-bar"
+    });
+  },
+
+  onMouseMove: function(event) {
+    this.player.volume(this.calculateDistance(event));
+  },
+
+  getPercent: function(){
+   return this.player.volume();
+  },
+
+  stepForward: function(){
+    this.player.volume(this.player.volume() + 0.1);
+  },
+
+  stepBack: function(){
+    this.player.volume(this.player.volume() - 0.1);
+  }
+});
+
+_V_.VolumeLevel = _V_.Component.extend({
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-volume-level",
+      innerHTML: '<span class="vjs-control-text"></span>'
+    });
+  }
+
+});
+
+_V_.VolumeHandle = _V_.Component.extend({
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-volume-handle",
+      innerHTML: '<span class="vjs-control-text"></span>'
+      // tabindex: 0,
+      // role: "slider", "aria-valuenow": 0, "aria-valuemin": 0, "aria-valuemax": 100
+    });
+  }
+
+});
+
+_V_.MuteToggle = _V_.Button.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+
+    player.on("volumechange", _V_.proxy(this, this.update));
+  },
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-mute-control vjs-control",
+      innerHTML: '<div><span class="vjs-control-text">Mute</span></div>'
+    });
+  },
+
+  onClick: function(event){
+    this.player.muted( this.player.muted() ? false : true );
+  },
+
+  update: function(event){
+    var vol = this.player.volume(),
+        level = 3;
+
+    if (vol == 0 || this.player.muted()) {
+      level = 0;
+    } else if (vol < 0.33) {
+      level = 1;
+    } else if (vol < 0.67) {
+      level = 2;
+    }
+
+    /* TODO improve muted icon classes */
+    _V_.each.call(this, [0,1,2,3], function(i){
+      _V_.removeClass(this.el, "vjs-vol-"+i);
+    });
+    _V_.addClass(this.el, "vjs-vol-"+level);
+  }
+
+});
+
+
+/* Poster Image
+================================================================================ */
+_V_.PosterImage = _V_.Button.extend({
+  init: function(player, options){
+    this._super(player, options);
+
+    if (!this.player.options.poster) {
+      this.hide();
+    }
+
+    player.on("play", _V_.proxy(this, this.hide));
+  },
+
+  createElement: function(){
+    return _V_.createElement("img", {
+      className: "vjs-poster",
+      src: this.player.options.poster,
+
+      // Don't want poster to be tabbable.
+      tabIndex: -1
+    });
+  },
+
+  onClick: function(){
+    this.player.play();
+  }
+});
+
+/* Menu
+================================================================================ */
+// The base for text track and settings menu buttons.
+_V_.Menu = _V_.Component.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+  },
+
+  addItem: function(component){
+    this.addComponent(component);
+    component.on("click", this.proxy(function(){
+      this.unlockShowing();
+    }));
+  },
+
+  createElement: function(){
+    return this._super("ul", {
+      className: "vjs-menu"
+    });
+  }
+
+});
+
+_V_.MenuItem = _V_.Button.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+
+    if (options.selected) {
+      this.addClass("vjs-selected");
+    }
+  },
+
+  createElement: function(type, attrs){
+    return this._super("li", _V_.merge({
+      className: "vjs-menu-item",
+      innerHTML: this.options.label
+    }, attrs));
+  },
+
+  onClick: function(){
+    this.selected(true);
+  },
+
+  selected: function(selected){
+    if (selected) {
+      this.addClass("vjs-selected");
+    } else {
+      this.removeClass("vjs-selected")
+    }
+  }
+
+});
+
+// FILE: src/tracks.js
+// TEXT TRACKS
+// Text tracks are tracks of timed text events.
+//    Captions - text displayed over the video for the hearing impared
+//    Subtitles - text displayed over the video for those who don't understand langauge in the video
+//    Chapters - text displayed in a menu allowing the user to jump to particular points (chapters) in the video
+//    Descriptions (not supported yet) - audio descriptions that are read back to the user by a screen reading device
+
+// Player Track Functions - Functions add to the player object for easier access to tracks
+_V_.merge(_V_.Player.prototype, {
+
+  // Add an array of text tracks. captions, subtitles, chapters, descriptions
+  // Track objects will be stored in the player.textTracks array
+  addTextTracks: function(trackObjects){
+    var tracks = this.textTracks = (this.textTracks) ? this.textTracks : [],
+        i = 0, j = trackObjects.length, track, Kind;
+
+    for (;i<j;i++) {
+      // HTML5 Spec says default to subtitles.
+      // Uppercase (uc) first letter to match class names
+      Kind = _V_.uc(trackObjects[i].kind || "subtitles");
+
+      // Create correct texttrack class. CaptionsTrack, etc.
+      track = new _V_[Kind + "Track"](this, trackObjects[i]);
+
+      tracks.push(track);
+
+      // If track.default is set, start showing immediately
+      // TODO: Add a process to deterime the best track to show for the specific kind
+      // Incase there are mulitple defaulted tracks of the same kind
+      // Or the user has a set preference of a specific language that should override the default
+      if (track['default']) {
+        this.ready(_V_.proxy(track, track.show));
+      }
+    }
+
+    // Return the track so it can be appended to the display component
+    return this;
+  },
+
+  // Show a text track
+  // disableSameKind: disable all other tracks of the same kind. Value should be a track kind (captions, etc.)
+  showTextTrack: function(id, disableSameKind){
+    var tracks = this.textTracks,
+        i = 0,
+        j = tracks.length,
+        track, showTrack, kind;
+
+    // Find Track with same ID
+    for (;i<j;i++) {
+      track = tracks[i];
+      if (track.id === id) {
+        track.show();
+        showTrack = track;
+
+      // Disable tracks of the same kind
+      } else if (disableSameKind && track.kind == disableSameKind && track.mode > 0) {
+        track.disable();
+      }
+    }
+
+    // Get track kind from shown track or disableSameKind
+    kind = (showTrack) ? showTrack.kind : ((disableSameKind) ? disableSameKind : false);
+
+    // Trigger trackchange event, captionstrackchange, subtitlestrackchange, etc.
+    if (kind) {
+      this.trigger(kind+"trackchange");
+    }
+
+    return this;
+  }
+
+});
+
+// Track Class
+// Contains track methods for loading, showing, parsing cues of tracks
+_V_.Track = _V_.Component.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+
+    // Apply track info to track object
+    // Options will often be a track element
+    _V_.merge(this, {
+      // Build ID if one doesn't exist
+      id: options.id || ("vjs_" + options.kind + "_" + options.language + "_" + _V_.guid++),
+
+      src: options.src,
+
+      // If default is used, subtitles/captions to start showing
+      "default": options["default"], // 'default' is reserved-ish
+      title: options.title,
+
+      // Language - two letter string to represent track language, e.g. "en" for English
+      // readonly attribute DOMString language;
+      language: options.srclang,
+
+      // Track label e.g. "English"
+      // readonly attribute DOMString label;
+      label: options.label,
+
+      // All cues of the track. Cues have a startTime, endTime, text, and other properties.
+      // readonly attribute TextTrackCueList cues;
+      cues: [],
+
+      // ActiveCues is all cues that are currently showing
+      // readonly attribute TextTrackCueList activeCues;
+      activeCues: [],
+
+      // ReadyState describes if the text file has been loaded
+      // const unsigned short NONE = 0;
+      // const unsigned short LOADING = 1;
+      // const unsigned short LOADED = 2;
+      // const unsigned short ERROR = 3;
+      // readonly attribute unsigned short readyState;
+      readyState: 0,
+
+      // Mode describes if the track is showing, hidden, or disabled
+      // const unsigned short OFF = 0;
+      // const unsigned short HIDDEN = 1; (still triggering cuechange events, but not visible)
+      // const unsigned short SHOWING = 2;
+      // attribute unsigned short mode;
+      mode: 0
+    });
+  },
+
+  // Create basic div to hold cue text
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-" + this.kind + " vjs-text-track"
+    });
+  },
+
+  // Show: Mode Showing (2)
+  // Indicates that the text track is active. If no attempt has yet been made to obtain the track's cues, the user agent will perform such an attempt momentarily.
+  // The user agent is maintaining a list of which cues are active, and events are being fired accordingly.
+  // In addition, for text tracks whose kind is subtitles or captions, the cues are being displayed over the video as appropriate;
+  // for text tracks whose kind is descriptions, the user agent is making the cues available to the user in a non-visual fashion;
+  // and for text tracks whose kind is chapters, the user agent is making available to the user a mechanism by which the user can navigate to any point in the media resource by selecting a cue.
+  // The showing by default state is used in conjunction with the default attribute on track elements to indicate that the text track was enabled due to that attribute.
+  // This allows the user agent to override the state if a later track is discovered that is more appropriate per the user's preferences.
+  show: function(){
+    this.activate();
+
+    this.mode = 2;
+
+    // Show element.
+    this._super();
+  },
+
+  // Hide: Mode Hidden (1)
+  // Indicates that the text track is active, but that the user agent is not actively displaying the cues.
+  // If no attempt has yet been made to obtain the track's cues, the user agent will perform such an attempt momentarily.
+  // The user agent is maintaining a list of which cues are active, and events are being fired accordingly.
+  hide: function(){
+    // When hidden, cues are still triggered. Disable to stop triggering.
+    this.activate();
+
+    this.mode = 1;
+
+    // Hide element.
+    this._super();
+  },
+
+  // Disable: Mode Off/Disable (0)
+  // Indicates that the text track is not active. Other than for the purposes of exposing the track in the DOM, the user agent is ignoring the text track.
+  // No cues are active, no events are fired, and the user agent will not attempt to obtain the track's cues.
+  disable: function(){
+    // If showing, hide.
+    if (this.mode == 2) { this.hide(); }
+
+    // Stop triggering cues
+    this.deactivate();
+
+    // Switch Mode to Off
+    this.mode = 0;
+  },
+
+  // Turn on cue tracking. Tracks that are showing OR hidden are active.
+  activate: function(){
+    // Load text file if it hasn't been yet.
+    if (this.readyState == 0) { this.load(); }
+
+    // Only activate if not already active.
+    if (this.mode == 0) {
+      // Update current cue on timeupdate
+      // Using unique ID for proxy function so other tracks don't remove listener
+      this.player.on("timeupdate", this.proxy(this.update, this.id));
+
+      // Reset cue time on media end
+      this.player.on("ended", this.proxy(this.reset, this.id));
+
+      // Add to display
+      if (this.kind == "captions" || this.kind == "subtitles") {
+        this.player.textTrackDisplay.addComponent(this);
+      }
+    }
+  },
+
+  // Turn off cue tracking.
+  deactivate: function(){
+    // Using unique ID for proxy function so other tracks don't remove listener
+    this.player.off("timeupdate", this.proxy(this.update, this.id));
+    this.player.off("ended", this.proxy(this.reset, this.id));
+    this.reset(); // Reset
+
+    // Remove from display
+    this.player.textTrackDisplay.removeComponent(this);
+  },
+
+  // A readiness state
+  // One of the following:
+  //
+  // Not loaded
+  // Indicates that the text track is known to exist (e.g. it has been declared with a track element), but its cues have not been obtained.
+  //
+  // Loading
+  // Indicates that the text track is loading and there have been no fatal errors encountered so far. Further cues might still be added to the track.
+  //
+  // Loaded
+  // Indicates that the text track has been loaded with no fatal errors. No new cues will be added to the track except if the text track corresponds to a MutableTextTrack object.
+  //
+  // Failed to load
+  // Indicates that the text track was enabled, but when the user agent attempted to obtain it, this failed in some way (e.g. URL could not be resolved, network error, unknown text track format). Some or all of the cues are likely missing and will not be obtained.
+  load: function(){
+
+    // Only load if not loaded yet.
+    if (this.readyState == 0) {
+      this.readyState = 1;
+      _V_.get(this.src, this.proxy(this.parseCues), this.proxy(this.onError));
+    }
+
+  },
+
+  onError: function(err){
+    this.error = err;
+    this.readyState = 3;
+    this.trigger("error");
+  },
+
+  // Parse the WebVTT text format for cue times.
+  // TODO: Separate parser into own class so alternative timed text formats can be used. (TTML, DFXP)
+  parseCues: function(srcContent) {
+    var cue, time, text,
+        lines = srcContent.split("\n"),
+        line = "", id;
+
+    for (var i=1, j=lines.length; i<j; i++) {
+      // Line 0 should be 'WEBVTT', so skipping i=0
+
+      line = _V_.trim(lines[i]); // Trim whitespace and linebreaks
+
+      if (line) { // Loop until a line with content
+
+        // First line could be an optional cue ID
+        // Check if line has the time separator
+        if (line.indexOf("-->") == -1) {
+          id = line;
+          // Advance to next line for timing.
+          line = _V_.trim(lines[++i]);
+        } else {
+          id = this.cues.length;
+        }
+
+        // First line - Number
+        cue = {
+          id: id, // Cue Number
+          index: this.cues.length // Position in Array
+        };
+
+        // Timing line
+        time = line.split(" --> ");
+        cue.startTime = this.parseCueTime(time[0]);
+        cue.endTime = this.parseCueTime(time[1]);
+
+        // Additional lines - Cue Text
+        text = [];
+
+        // Loop until a blank line or end of lines
+        // Assumeing trim("") returns false for blank lines
+        while (lines[++i] && (line = _V_.trim(lines[i]))) {
+          text.push(line);
+        }
+
+        cue.text = text.join('<br/>');
+
+        // Add this cue
+        this.cues.push(cue);
+      }
+    }
+
+    this.readyState = 2;
+    this.trigger("loaded");
+  },
+
+  parseCueTime: function(timeText) {
+    var parts = timeText.split(':'),
+        time = 0,
+        hours, minutes, other, seconds, ms, flags;
+
+    // Check if optional hours place is included
+    // 00:00:00.000 vs. 00:00.000
+    if (parts.length == 3) {
+      hours = parts[0];
+      minutes = parts[1];
+      other = parts[2];
+    } else {
+      hours = 0;
+      minutes = parts[0];
+      other = parts[1];
+    }
+
+    // Break other (seconds, milliseconds, and flags) by spaces
+    // TODO: Make additional cue layout settings work with flags
+    other = other.split(/\s+/)
+    // Remove seconds. Seconds is the first part before any spaces.
+    seconds = other.splice(0,1)[0];
+    // Could use either . or , for decimal
+    seconds = seconds.split(/\.|,/);
+    // Get milliseconds
+    ms = parseFloat(seconds[1]);
+    seconds = seconds[0];
+
+    // hours => seconds
+    time += parseFloat(hours) * 3600;
+    // minutes => seconds
+    time += parseFloat(minutes) * 60;
+    // Add seconds
+    time += parseFloat(seconds);
+    // Add milliseconds
+    if (ms) { time += ms/1000; }
+
+    return time;
+  },
+
+  // Update active cues whenever timeupdate events are triggered on the player.
+  update: function(){
+    if (this.cues.length > 0) {
+
+      // Get curent player time
+      var time = this.player.currentTime();
+
+      // Check if the new time is outside the time box created by the the last update.
+      if (this.prevChange === undefined || time < this.prevChange || this.nextChange <= time) {
+        var cues = this.cues,
+
+            // Create a new time box for this state.
+            newNextChange = this.player.duration(), // Start at beginning of the timeline
+            newPrevChange = 0, // Start at end
+
+            reverse = false, // Set the direction of the loop through the cues. Optimized the cue check.
+            newCues = [], // Store new active cues.
+
+            // Store where in the loop the current active cues are, to provide a smart starting point for the next loop.
+            firstActiveIndex, lastActiveIndex,
+
+            html = "", // Create cue text HTML to add to the display
+            cue, i, j; // Loop vars
+
+        // Check if time is going forwards or backwards (scrubbing/rewinding)
+        // If we know the direction we can optimize the starting position and direction of the loop through the cues array.
+        if (time >= this.nextChange || this.nextChange === undefined) { // NextChange should happen
+          // Forwards, so start at the index of the first active cue and loop forward
+          i = (this.firstActiveIndex !== undefined) ? this.firstActiveIndex : 0;
+        } else {
+          // Backwards, so start at the index of the last active cue and loop backward
+          reverse = true;
+          i = (this.lastActiveIndex !== undefined) ? this.lastActiveIndex : cues.length - 1;
+        }
+
+        while (true) { // Loop until broken
+          cue = cues[i];
+
+          // Cue ended at this point
+          if (cue.endTime <= time) {
+            newPrevChange = Math.max(newPrevChange, cue.endTime);
+
+            if (cue.active) {
+              cue.active = false;
+            }
+
+            // No earlier cues should have an active start time.
+            // Nevermind. Assume first cue could have a duration the same as the video.
+            // In that case we need to loop all the way back to the beginning.
+            // if (reverse && cue.startTime) { break; }
+
+          // Cue hasn't started
+          } else if (time < cue.startTime) {
+            newNextChange = Math.min(newNextChange, cue.startTime);
+
+            if (cue.active) {
+              cue.active = false;
+            }
+
+            // No later cues should have an active start time.
+            if (!reverse) { break; }
+
+          // Cue is current
+          } else {
+
+            if (reverse) {
+              // Add cue to front of array to keep in time order
+              newCues.splice(0,0,cue);
+
+              // If in reverse, the first current cue is our lastActiveCue
+              if (lastActiveIndex === undefined) { lastActiveIndex = i; }
+              firstActiveIndex = i;
+            } else {
+              // Add cue to end of array
+              newCues.push(cue);
+
+              // If forward, the first current cue is our firstActiveIndex
+              if (firstActiveIndex === undefined) { firstActiveIndex = i; }
+              lastActiveIndex = i;
+            }
+
+            newNextChange = Math.min(newNextChange, cue.endTime);
+            newPrevChange = Math.max(newPrevChange, cue.startTime);
+
+            cue.active = true;
+          }
+
+          if (reverse) {
+            // Reverse down the array of cues, break if at first
+            if (i === 0) { break; } else { i--; }
+          } else {
+            // Walk up the array fo cues, break if at last
+            if (i === cues.length - 1) { break; } else { i++; }
+          }
+
+        }
+
+        this.activeCues = newCues;
+        this.nextChange = newNextChange;
+        this.prevChange = newPrevChange;
+        this.firstActiveIndex = firstActiveIndex;
+        this.lastActiveIndex = lastActiveIndex;
+
+        this.updateDisplay();
+
+        this.trigger("cuechange");
+      }
+    }
+  },
+
+  // Add cue HTML to display
+  updateDisplay: function(){
+    var cues = this.activeCues,
+        html = "",
+        i=0,j=cues.length;
+
+    for (;i<j;i++) {
+      html += "<span class='vjs-tt-cue'>"+cues[i].text+"</span>";
+    }
+
+    this.el.innerHTML = html;
+  },
+
+  // Set all loop helper values back
+  reset: function(){
+    this.nextChange = 0;
+    this.prevChange = this.player.duration();
+    this.firstActiveIndex = 0;
+    this.lastActiveIndex = 0;
+  }
+
+});
+
+// Create specific track types
+_V_.CaptionsTrack = _V_.Track.extend({
+  kind: "captions"
+});
+
+_V_.SubtitlesTrack = _V_.Track.extend({
+  kind: "subtitles"
+});
+
+_V_.ChaptersTrack = _V_.Track.extend({
+  kind: "chapters"
+});
+
+
+/* Text Track Display
+================================================================================ */
+// Global container for both subtitle and captions text. Simple div container.
+_V_.TextTrackDisplay = _V_.Component.extend({
+
+  createElement: function(){
+    return this._super("div", {
+      className: "vjs-text-track-display"
+    });
+  }
+
+});
+
+/* Text Track Menu Items
+================================================================================ */
+_V_.TextTrackMenuItem = _V_.MenuItem.extend({
+
+  init: function(player, options){
+    var track = this.track = options.track;
+
+    // Modify options for parent MenuItem class's init.
+    options.label = track.label;
+    options.selected = track["default"];
+    this._super(player, options);
+
+    this.player.on(track.kind + "trackchange", _V_.proxy(this, this.update));
+  },
+
+  onClick: function(){
+    this._super();
+    this.player.showTextTrack(this.track.id, this.track.kind);
+  },
+
+  update: function(){
+    if (this.track.mode == 2) {
+      this.selected(true);
+    } else {
+      this.selected(false);
+    }
+  }
+
+});
+
+_V_.OffTextTrackMenuItem = _V_.TextTrackMenuItem.extend({
+
+  init: function(player, options){
+    // Create pseudo track info
+    // Requires options.kind
+    options.track = { kind: options.kind, player: player, label: "Off" }
+    this._super(player, options);
+  },
+
+  onClick: function(){
+    this._super();
+    this.player.showTextTrack(this.track.id, this.track.kind);
+  },
+
+  update: function(){
+    var tracks = this.player.textTracks,
+        i=0, j=tracks.length, track,
+        off = true;
+
+    for (;i<j;i++) {
+      track = tracks[i];
+      if (track.kind == this.track.kind && track.mode == 2) {
+        off = false;
+      }
+    }
+
+    if (off) {
+      this.selected(true);
+    } else {
+      this.selected(false);
+    }
+  }
+
+});
+
+/* Captions Button
+================================================================================ */
+_V_.TextTrackButton = _V_.Button.extend({
+
+  init: function(player, options){
+    this._super(player, options);
+
+    this.menu = this.createMenu();
+
+    if (this.items.length === 0) {
+      this.hide();
+    }
+  },
+
+  createMenu: function(){
+    var menu = new _V_.Menu(this.player);
+
+    // Add a title list item to the top
+    menu.el.appendChild(_V_.createElement("li", {
+      className: "vjs-menu-title",
+      innerHTML: _V_.uc(this.kind)
+    }));
+
+    // Add an OFF menu item to turn all tracks off
+    menu.addItem(new _V_.OffTextTrackMenuItem(this.player, { kind: this.kind }))
+
+    this.items = this.createItems();
+
+    // Add menu items to the menu
+    this.each(this.items, function(item){
+      menu.addItem(item);
+    });
+
+    // Add list to element
+    this.addComponent(menu);
+
+    return menu;
+  },
+
+  // Create a menu item for each text track
+  createItems: function(){
+    var items = [];
+    this.each(this.player.textTracks, function(track){
+      if (track.kind === this.kind) {
+        items.push(new _V_.TextTrackMenuItem(this.player, {
+          track: track
+        }));
+      }
+    });
+    return items;
+  },
+
+  buildCSSClass: function(){
+    return this.className + " vjs-menu-button " + this._super();
+  },
+
+  // Focus - Add keyboard functionality to element
+  onFocus: function(){
+    // Show the menu, and keep showing when the menu items are in focus
+    this.menu.lockShowing();
+    // this.menu.el.style.display = "block";
+
+    // When tabbing through, the menu should hide when focus goes from the last menu item to the next tabbed element.
+    _V_.one(this.menu.el.childNodes[this.menu.el.childNodes.length - 1], "blur", this.proxy(function(){
+      this.menu.unlockShowing();
+    }));
+  },
+  // Can't turn off list display that we turned on with focus, because list would go away.
+  onBlur: function(){},
+
+  onClick: function(){
+    // When you click the button it adds focus, which will show the menu indefinitely.
+    // So we'll remove focus when the mouse leaves the button.
+    // Focus is needed for tab navigation.
+    this.one("mouseout", this.proxy(function(){
+      this.menu.unlockShowing();
+      this.el.blur();
+    }));
+  }
+
+});
+
+_V_.CaptionsButton = _V_.TextTrackButton.extend({
+  kind: "captions",
+  buttonText: "Captions",
+  className: "vjs-captions-button"
+});
+
+_V_.SubtitlesButton = _V_.TextTrackButton.extend({
+  kind: "subtitles",
+  buttonText: "Subtitles",
+  className: "vjs-subtitles-button"
+});
+
+// Chapters act much differently than other text tracks
+// Cues are navigation vs. other tracks of alternative languages
+_V_.ChaptersButton = _V_.TextTrackButton.extend({
+  kind: "chapters",
+  buttonText: "Chapters",
+  className: "vjs-chapters-button",
+
+  // Create a menu item for each text track
+  createItems: function(chaptersTrack){
+    var items = [];
+
+    this.each(this.player.textTracks, function(track){
+      if (track.kind === this.kind) {
+        items.push(new _V_.TextTrackMenuItem(this.player, {
+          track: track
+        }));
+      }
+    });
+
+    return items;
+  },
+
+  createMenu: function(){
+    var tracks = this.player.textTracks,
+        i = 0,
+        j = tracks.length,
+        track, chaptersTrack,
+        items = this.items = [];
+
+    for (;i<j;i++) {
+      track = tracks[i];
+      if (track.kind == this.kind && track["default"]) {
+        if (track.readyState < 2) {
+          this.chaptersTrack = track;
+          track.on("loaded", this.proxy(this.createMenu));
+          return;
+        } else {
+          chaptersTrack = track;
+          break;
+        }
+      }
+    }
+
+    var menu = this.menu = new _V_.Menu(this.player);
+
+    menu.el.appendChild(_V_.createElement("li", {
+      className: "vjs-menu-title",
+      innerHTML: _V_.uc(this.kind)
+    }));
+
+    if (chaptersTrack) {
+      var cues = chaptersTrack.cues,
+          i = 0, j = cues.length, cue, mi;
+
+      for (;i<j;i++) {
+        cue = cues[i];
+
+        mi = new _V_.ChaptersTrackMenuItem(this.player, {
+          track: chaptersTrack,
+          cue: cue
+        });
+
+        items.push(mi);
+
+        menu.addComponent(mi);
+      }
+    }
+
+    // Add list to element
+    this.addComponent(menu);
+
+    if (this.items.length > 0) {
+      this.show();
+    }
+
+    return menu;
+  }
+
+});
+
+_V_.ChaptersTrackMenuItem = _V_.MenuItem.extend({
+
+  init: function(player, options){
+    var track = this.track = options.track,
+        cue = this.cue = options.cue,
+        currentTime = player.currentTime();
+
+    // Modify options for parent MenuItem class's init.
+    options.label = cue.text;
+    options.selected = (cue.startTime <= currentTime && currentTime < cue.endTime);
+    this._super(player, options);
+
+    track.on("cuechange", _V_.proxy(this, this.update));
+  },
+
+  onClick: function(){
+    this._super();
+    this.player.currentTime(this.cue.startTime);
+    this.update(this.cue.startTime);
+  },
+
+  update: function(time){
+    var cue = this.cue,
+        currentTime = this.player.currentTime();
+
+    // _V_.log(currentTime, cue.startTime);
+    if (cue.startTime <= currentTime && currentTime < cue.endTime) {
+      this.selected(true);
+    } else {
+      this.selected(false);
+    }
+  }
+
+});
+
+// Add Buttons to controlBar
+_V_.merge(_V_.ControlBar.prototype.options.components, {
+  "subtitlesButton": {},
+  "captionsButton": {},
+  "chaptersButton": {}
+});
+
+// _V_.Cue = _V_.Component.extend({
+//   init: function(player, options){
+//     this._super(player, options);
+//   }
+// });
+// FILE: tech/html5/html5.js
 /* HTML5 Playback Technology - Wrapper for HTML5 Media API
 ================================================================================ */
 _V_.html5 = _V_.PlaybackTech.extend({
@@ -2346,7 +3829,7 @@ _V_.html5 = _V_.PlaybackTech.extend({
   volume: function(){ return this.el.volume; },
   setVolume: function(percentAsDecimal){ this.el.volume = percentAsDecimal; },
   muted: function(){ return this.el.muted; },
-  setMuted: function(muted){ this.el.muted = muted },
+  setMuted: function(muted){ this.el.muted = muted; },
 
   width: function(){ return this.el.offsetWidth; },
   height: function(){ return this.el.offsetHeight; },
@@ -2368,7 +3851,17 @@ _V_.html5 = _V_.PlaybackTech.extend({
       } catch (e) {
         if (e.code == 11) {
           // this.warning(VideoJS.warnings.videoNotReady);
-          _V_.log("VideoJS: Video not ready.")
+          _V_.log("VideoJS: Video not ready.");
+        }
+      }
+  },
+  exitFullScreen: function(){
+      try {
+        this.el.webkitExitFullScreen();
+      } catch (e) {
+        if (e.code == 11) {
+          // this.warning(VideoJS.warnings.videoNotReady);
+          _V_.log("VideoJS: Video not ready.");
         }
       }
   },
@@ -2446,7 +3939,7 @@ if (_V_.isAndroid()) {
   }
 }
 
-
+// FILE: tech/flash/flash.js
 /* VideoJS-SWF - Custom Flash Player with HTML5-ish API - https://github.com/zencoder/video-js-swf
 ================================================================================ */
 _V_.flash = _V_.PlaybackTech.extend({
@@ -2536,7 +4029,7 @@ _V_.flash = _V_.PlaybackTech.extend({
     //    Not sure why that even works, but it causes the browser to look like it's continuously trying to load the page.
     // Firefox 3.6 keeps calling the iframe onload function anytime I write to it, causing an endless loop.
 
-    if (options.iFrameMode == true && !_V_.isFF) {
+    if (options.iFrameMode === true && !_V_.isFF) {
 
       // Create iFrame with vjs-tech class so it's 100% width/height
       var iFrm = _V_.createElement("iframe", {
@@ -2805,7 +4298,7 @@ _V_.flash.onError = function(swfID, err){
 
 // Flash Version Check
 _V_.flash.version = function(){
-  var version = '0,0,0'
+  var version = '0,0,0';
 
   // IE
   try {
@@ -2820,7 +4313,7 @@ _V_.flash.version = function(){
     } catch(e) {}
   }
   return version.split(",");
-}
+};
 
 // Flash embedding method. Only used in non-iframe mode
 _V_.flash.embed = function(swf, placeHolder, flashVars, params, attributes){
@@ -2851,7 +4344,7 @@ _V_.flash.getEmbedCode = function(swf, flashVars, params, attributes){
 
   var objTag = '<object type="application/x-shockwave-flash"',
       flashVarsString = '',
-      paramsString = ''
+      paramsString = '',
       attrsString = '';
 
   // Convert flash vars to string
@@ -2890,1640 +4383,10 @@ _V_.flash.getEmbedCode = function(swf, flashVars, params, attributes){
   });
 
   return objTag + attrsString + '>' + paramsString + '</object>';
-}
-/* Control - Base class for all control elements
-================================================================================ */
-_V_.Control = _V_.Component.extend({
+};
 
-  buildCSSClass: function(){
-    return "vjs-control " + this._super();
-  }
-
-});
-
-/* Control Bar
-================================================================================ */
-_V_.ControlBar = _V_.Component.extend({
-
-  options: {
-    loadEvent: "play",
-    components: {
-      "playToggle": {},
-      //"fullscreenToggle": {},
-      //"currentTimeDisplay": {},
-      //"timeDivider": {},
-      //"durationDisplay": {},
-      "restartControl": {},
-      "remainingTimeDisplay": {},
-      "progressControl": {},
-      "volumeControl": {},
-      "muteToggle": {}
-    }
-  },
-
-  init: function(player, options){
-    this._super(player, options);
-
-    player.one("play", this.proxy(function(){
-      this.fadeIn();
-      this.player.addEvent("mouseover", this.proxy(this.fadeIn));
-      this.player.addEvent("mouseout", this.proxy(this.fadeOut));
-    }));
-
-  },
-
-  createElement: function(){
-    return _V_.createElement("div", {
-      className: "vjs-controls"
-    });
-  },
-
-  fadeIn: function(){
-    this._super();
-    this.player.triggerEvent("controlsvisible");
-  },
-
-  fadeOut: function(){
-    this._super();
-    this.player.triggerEvent("controlshidden");
-  },
-
-  lockShowing: function(){
-    this.el.style.opacity = "1";
-  }
-
-});
-
-/* Button - Base class for all buttons
-================================================================================ */
-_V_.Button = _V_.Control.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-
-    this.addEvent("click", this.onClick);
-    this.addEvent("focus", this.onFocus);
-    this.addEvent("blur", this.onBlur);
-  },
-
-  createElement: function(type, attrs){
-    // Add standard Aria and Tabindex info
-    attrs = _V_.merge({
-      className: this.buildCSSClass(),
-      innerHTML: '<div><span class="vjs-control-text">' + (this.buttonText || "Need Text") + '</span></div>',
-      role: "button",
-      tabIndex: 0
-    }, attrs);
-
-    return this._super(type, attrs);
-  },
-
-  // Click - Override with specific functionality for button
-  onClick: function(){},
-
-  // Focus - Add keyboard functionality to element
-  onFocus: function(){
-    _V_.addEvent(document, "keyup", _V_.proxy(this, this.onKeyPress));
-  },
-
-  // KeyPress (document level) - Trigger click when keys are pressed
-  onKeyPress: function(event){
-    // Check for space bar (32) or enter (13) keys
-    if (event.which == 32 || event.which == 13) {
-      event.preventDefault();
-      this.onClick();
-    }
-  },
-
-  // Blur - Remove keyboard triggers
-  onBlur: function(){
-    _V_.removeEvent(document, "keyup", _V_.proxy(this, this.onKeyPress));
-  }
-
-});
-
-/* Play Button
-================================================================================ */
-_V_.PlayButton = _V_.Button.extend({
-
-  buttonText: "Play",
-
-  buildCSSClass: function(){
-    return "vjs-play-button " + this._super();
-  },
-
-  onClick: function(){
-    this.player.play();
-  }
-
-});
-
-/* Pause Button
-================================================================================ */
-_V_.PauseButton = _V_.Button.extend({
-
-  buttonText: "Pause",
-
-  buildCSSClass: function(){
-    return "vjs-pause-button " + this._super();
-  },
-
-  onClick: function(){
-    this.player.pause();
-  }
-
-});
-
-/* Play Toggle - Play or Pause Media
-================================================================================ */
-_V_.PlayToggle = _V_.Button.extend({
-
-  buttonText: "Play",
-
-  init: function(player, options){
-    this._super(player, options);
-
-    player.addEvent("play", _V_.proxy(this, this.onPlay));
-    player.addEvent("pause", _V_.proxy(this, this.onPause));
-  },
-
-  buildCSSClass: function(){
-    return "vjs-play-control " + this._super();
-  },
-
-  // OnClick - Toggle between play and pause
-  onClick: function(){
-    if (this.player.paused()) {
-      this.player.play();
-    } else {
-      this.player.pause();
-    }
-  },
-
-  // OnPlay - Add the vjs-playing class to the element so it can change appearance
-  onPlay: function(){
-    _V_.removeClass(this.el, "vjs-paused");
-    _V_.addClass(this.el, "vjs-playing");
-  },
-
-  // OnPause - Add the vjs-paused class to the element so it can change appearance
-  onPause: function(){
-    _V_.removeClass(this.el, "vjs-playing");
-    _V_.addClass(this.el, "vjs-paused");
-  }
-
-});
-
-
-/* Fullscreen Toggle Behaviors
-================================================================================ */
-_V_.FullscreenToggle = _V_.Button.extend({
-
-  buttonText: "Fullscreen",
-
-  buildCSSClass: function(){
-    return "vjs-fullscreen-control " + this._super();
-  },
-
-  onClick: function(){
-    if (!this.player.isFullScreen) {
-      this.player.requestFullScreen();
-    } else {
-      this.player.cancelFullScreen();
-    }
-  }
-
-});
-
-/* Big Play Button
-================================================================================ */
-_V_.BigPlayButton = _V_.Button.extend({
-  init: function(player, options){
-    this._super(player, options);
-
-    player.addEvent("play", _V_.proxy(this, this.hide));
-    player.addEvent("ended", _V_.proxy(this, this.show));
-  },
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-big-play-button",
-      innerHTML: "<span></span>"
-    });
-  },
-
-  onClick: function(){
-    // Go back to the beginning if big play button is showing at the end.
-    // Have to check for current time otherwise it might throw a 'not ready' error.
-    if(this.player.currentTime()) {
-      this.player.currentTime(0);
-    }
-    this.player.play();
-  }
-});
-
-/* Loading Spinner
-================================================================================ */
-_V_.LoadingSpinner = _V_.Component.extend({
-  init: function(player, options){
-    this._super(player, options);
-
-    player.addEvent("canplay", _V_.proxy(this, this.hide));
-    player.addEvent("canplaythrough", _V_.proxy(this, this.hide));
-    player.addEvent("playing", _V_.proxy(this, this.hide));
-
-    player.addEvent("seeking", _V_.proxy(this, this.show));
-
-    // in some browsers seeking does not trigger the 'playing' event,
-    // so we also need to trap 'seeked' if we are going to set a
-    // 'seeking' event
-    player.addEvent("seeked", _V_.proxy(this, this.hide));
-
-    player.addEvent("error", _V_.proxy(this, this.show));
-
-    // Not showing spinner on stalled any more. Browsers may stall and then not trigger any events that would remove the spinner.
-    // Checked in Chrome 16 and Safari 5.1.2. http://help.videojs.com/discussions/problems/883-why-is-the-download-progress-showing
-    // player.addEvent("stalled", _V_.proxy(this, this.show));
-
-    player.addEvent("waiting", _V_.proxy(this, this.show));
-  },
-
-  createElement: function(){
-
-    var classNameSpinner, innerHtmlSpinner;
-
-    if ( typeof this.player.el.style.WebkitBorderRadius == "string"
-         || typeof this.player.el.style.MozBorderRadius == "string"
-         || typeof this.player.el.style.KhtmlBorderRadius == "string"
-         || typeof this.player.el.style.borderRadius == "string")
-      {
-        classNameSpinner = "vjs-loading-spinner";
-        innerHtmlSpinner = "<div class='ball1'></div><div class='ball2'></div><div class='ball3'></div><div class='ball4'></div><div class='ball5'></div><div class='ball6'></div><div class='ball7'></div><div class='ball8'></div>";
-      } else {
-        classNameSpinner = "vjs-loading-spinner-fallback";
-        innerHtmlSpinner = "";
-      }
-
-    return this._super("div", {
-      className: classNameSpinner,
-      innerHTML: innerHtmlSpinner
-    });
-  }
-});
-
-/* Time
-================================================================================ */
-_V_.CurrentTimeDisplay = _V_.Component.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-
-    player.addEvent("timeupdate", _V_.proxy(this, this.updateContent));
-  },
-
-  createElement: function(){
-    var el = this._super("div", {
-      className: "vjs-current-time vjs-time-controls vjs-control"
-    });
-
-    this.content = _V_.createElement("div", {
-      className: "vjs-current-time-display",
-      innerHTML: '0:00'
-    });
-
-    el.appendChild(_V_.createElement("div").appendChild(this.content));
-    return el;
-  },
-
-  updateContent: function(){
-    // Allows for smooth scrubbing, when player can't keep up.
-    var time = (this.player.scrubbing) ? this.player.values.currentTime : this.player.currentTime();
-    this.content.innerHTML = _V_.formatTime(time, this.player.duration());
-  }
-
-});
-
-_V_.DurationDisplay = _V_.Component.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-
-    player.addEvent("timeupdate", _V_.proxy(this, this.updateContent));
-  },
-
-  createElement: function(){
-    var el = this._super("div", {
-      className: "vjs-duration vjs-time-controls vjs-control"
-    });
-
-    this.content = _V_.createElement("div", {
-      className: "vjs-duration-display",
-      innerHTML: '0:00'
-    });
-
-    el.appendChild(_V_.createElement("div").appendChild(this.content));
-    return el;
-  },
-
-  updateContent: function(){
-    if (this.player.duration()) { this.content.innerHTML = _V_.formatTime(this.player.duration()); }
-  }
-
-});
-
-// Time Separator (Not used in main skin, but still available, and could be used as a 'spare element')
-_V_.TimeDivider = _V_.Component.extend({
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-time-divider",
-      innerHTML: '<div><span>/</span></div>'
-    });
-  }
-
-});
-
-_V_.RemainingTimeDisplay = _V_.Component.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-
-    player.addEvent("timeupdate", _V_.proxy(this, this.updateContent));
-  },
-
-  createElement: function(){
-    var el = this._super("div", {
-      className: "vjs-remaining-time vjs-time-controls vjs-control"
-    });
-
-    this.content = _V_.createElement("div", {
-      className: "vjs-remaining-time-display",
-      innerHTML: '-0:00'
-    });
-
-    el.appendChild(_V_.createElement("div").appendChild(this.content));
-    return el;
-  },
-
-  updateContent: function(){
-    if (this.player.duration()) { this.content.innerHTML = "-"+_V_.formatTime(this.player.remainingTime()); }
-
-    // Allows for smooth scrubbing, when player can't keep up.
-    // var time = (this.player.scrubbing) ? this.player.values.currentTime : this.player.currentTime();
-    // this.content.innerHTML = _V_.formatTime(time, this.player.duration());
-  }
-
-});
-
-/* Slider - Parent for seek bar and volume slider
-================================================================================ */
-_V_.Slider = _V_.Component.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-
-    player.addEvent(this.playerEvent, _V_.proxy(this, this.update));
-
-    this.addEvent("mousedown", this.onMouseDown);
-    this.addEvent("focus", this.onFocus);
-    this.addEvent("blur", this.onBlur);
-
-    this.player.addEvent("controlsvisible", this.proxy(this.update));
-
-    // This is actually to fix the volume handle position. http://twitter.com/#!/gerritvanaaken/status/159046254519787520
-    // this.player.one("timeupdate", this.proxy(this.update));
-
-    this.update();
-  },
-
-  createElement: function(type, attrs) {
-    attrs = _V_.merge({
-      role: "slider",
-      "aria-valuenow": 0,
-      "aria-valuemin": 0,
-      "aria-valuemax": 100,
-      tabIndex: 0
-    }, attrs);
-
-    return this._super(type, attrs);
-  },
-
-  onMouseDown: function(event){
-    event.preventDefault();
-    _V_.blockTextSelection();
-
-    _V_.addEvent(document, "mousemove", _V_.proxy(this, this.onMouseMove));
-    _V_.addEvent(document, "mouseup", _V_.proxy(this, this.onMouseUp));
-
-    this.onMouseMove(event);
-  },
-
-  onMouseUp: function(event) {
-    _V_.unblockTextSelection();
-    _V_.removeEvent(document, "mousemove", this.onMouseMove, false);
-    _V_.removeEvent(document, "mouseup", this.onMouseUp, false);
-
-    this.update();
-  },
-
-  update: function(){
-    // If scrubbing, we could use a cached value to make the handle keep up with the user's mouse.
-    // On HTML5 browsers scrubbing is really smooth, but some flash players are slow, so we might want to utilize this later.
-    // var progress =  (this.player.scrubbing) ? this.player.values.currentTime / this.player.duration() : this.player.currentTime() / this.player.duration();
-
-    var barProgress,
-        progress = this.getPercent();
-        handle = this.handle,
-        bar = this.bar;
-
-    // Protect against no duration and other division issues
-    if (isNaN(progress)) { progress = 0; }
-
-    barProgress = progress;
-
-    // If there is a handle, we need to account for the handle in our calculation for progress bar
-    // so that it doesn't fall short of or extend past the handle.
-    if (handle) {
-
-      var box = this.el,
-          boxWidth = box.offsetWidth,
-
-          handleWidth = handle.el.offsetWidth,
-
-          // The width of the handle in percent of the containing box
-          // In IE, widths may not be ready yet causing NaN
-          handlePercent = (handleWidth) ? handleWidth / boxWidth : 0,
-
-          // Get the adjusted size of the box, considering that the handle's center never touches the left or right side.
-          // There is a margin of half the handle's width on both sides.
-          boxAdjustedPercent = 1 - handlePercent;
-
-          // Adjust the progress that we'll use to set widths to the new adjusted box width
-          adjustedProgress = progress * boxAdjustedPercent,
-
-          // The bar does reach the left side, so we need to account for this in the bar's width
-          barProgress = adjustedProgress + (handlePercent / 2);
-
-      // Move the handle from the left based on the adjected progress
-      handle.el.style.left = _V_.round(adjustedProgress * 100, 2) + "%";
-    }
-
-    // Set the new bar width
-    bar.el.style.width = _V_.round(barProgress * 100, 2) + "%";
-  },
-
-  calculateDistance: function(event){
-    var box = this.el,
-        boxX = _V_.findPosX(box),
-        boxW = box.offsetWidth,
-        handle = this.handle;
-
-    if (handle) {
-      var handleW = handle.el.offsetWidth;
-
-      // Adjusted X and Width, so handle doesn't go outside the bar
-      boxX = boxX + (handleW / 2);
-      boxW = boxW - handleW;
-    }
-
-    // Percent that the click is through the adjusted area
-    return Math.max(0, Math.min(1, (event.pageX - boxX) / boxW));
-  },
-
-  onFocus: function(event){
-    _V_.addEvent(document, "keyup", _V_.proxy(this, this.onKeyPress));
-  },
-
-  onKeyPress: function(event){
-    if (event.which == 37) { // Left Arrow
-      event.preventDefault();
-      this.stepBack();
-    } else if (event.which == 39) { // Right Arrow
-      event.preventDefault();
-      this.stepForward();
-    }
-  },
-
-  onBlur: function(event){
-    _V_.removeEvent(document, "keyup", _V_.proxy(this, this.onKeyPress));
-  }
-});
-
-
-/* Progress
-================================================================================ */
-
-// Progress Control: Seek, Load Progress, and Play Progress
-_V_.ProgressControl = _V_.Component.extend({
-
-  options: {
-    components: {
-      "seekBar": {}
-    }
-  },
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-progress-control vjs-control"
-    });
-  }
-
-});
-
-// Seek Bar and holder for the progress bars
-_V_.SeekBar = _V_.Slider.extend({
-
-  options: {
-    components: {
-      "loadProgressBar": {},
-
-      // Set property names to bar and handle to match with the parent Slider class is looking for
-      "bar": { componentClass: "PlayProgressBar" },
-      //"handle": { componentClass: "SeekHandle" }
-    }
-  },
-
-  playerEvent: "timeupdate",
-
-  init: function(player, options){
-    this._super(player, options);
-  },
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-progress-holder"
-    });
-  },
-
-  getPercent: function(){
-    return this.player.currentTime() / this.player.duration();
-  },
-
-  onMouseDown: function(event){
-    this._super(event);
-
-    this.player.scrubbing = true;
-
-    this.videoWasPlaying = !this.player.paused();
-    this.player.pause();
-  },
-
-  onMouseMove: function(event){
-    var newTime = this.calculateDistance(event) * this.player.duration();
-
-    // Don't let video end while scrubbing.
-    if (newTime == this.player.duration()) { newTime = newTime - 0.1; }
-
-    // Set new time (tell player to seek to new time)
-    this.player.currentTime(newTime);
-  },
-
-  onMouseUp: function(event){
-    this._super(event);
-
-    this.player.scrubbing = false;
-    if (this.videoWasPlaying) {
-      this.player.play();
-    }
-  },
-
-  stepForward: function(){
-    this.player.currentTime(this.player.currentTime() + 1);
-  },
-
-  stepBack: function(){
-    this.player.currentTime(this.player.currentTime() - 1);
-  }
-
-});
-
-// Load Progress Bar
-_V_.LoadProgressBar = _V_.Component.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-    player.addEvent("progress", _V_.proxy(this, this.update));
-  },
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-load-progress",
-      innerHTML: '<span class="vjs-control-text">Loaded: 0%</span>'
-    });
-  },
-
-  update: function(){
-    if (this.el.style) { this.el.style.width = _V_.round(this.player.bufferedPercent() * 100, 2) + "%"; }
-  }
-
-});
-
-// Play Progress Bar
-_V_.PlayProgressBar = _V_.Component.extend({
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-play-progress",
-      innerHTML: '<span class="vjs-control-text">Progress: 0%</span>'
-    });
-  }
-
-});
-
-// Seek Handle
-// SeekBar Behavior includes play progress bar, and seek handle
-// Needed so it can determine seek position based on handle position/size
-_V_.SeekHandle = _V_.Component.extend({
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-seek-handle",
-      innerHTML: '<span class="vjs-control-text">00:00</span>'
-    });
-  }
-
-});
-
-/* Volume Scrubber
-================================================================================ */
-// Progress Control: Seek, Load Progress, and Play Progress
-_V_.VolumeControl = _V_.Component.extend({
-
-  options: {
-    components: {
-      "volumeBar": {}
-    }
-  },
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-volume-control vjs-control"
-    });
-  }
-
-});
-
-_V_.VolumeBar = _V_.Slider.extend({
-
-  options: {
-    components: {
-      "bar": { componentClass: "VolumeLevel" },
-      "handle": { componentClass: "VolumeHandle" }
-    }
-  },
-
-  playerEvent: "volumechange",
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-volume-bar"
-    });
-  },
-
-  onMouseMove: function(event) {
-    this.player.volume(this.calculateDistance(event));
-  },
-
-  getPercent: function(){
-   return this.player.volume();
-  },
-
-  stepForward: function(){
-    this.player.volume(this.player.volume() + 0.1);
-  },
-
-  stepBack: function(){
-    this.player.volume(this.player.volume() - 0.1);
-  }
-});
-
-_V_.VolumeLevel = _V_.Component.extend({
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-volume-level",
-      innerHTML: '<span class="vjs-control-text"></span>'
-    });
-  }
-
-});
-
-_V_.VolumeHandle = _V_.Component.extend({
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-volume-handle",
-      innerHTML: '<span class="vjs-control-text"></span>'
-      // tabindex: 0,
-      // role: "slider", "aria-valuenow": 0, "aria-valuemin": 0, "aria-valuemax": 100
-    });
-  }
-
-});
-
-_V_.MuteToggle = _V_.Button.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-
-    player.addEvent("volumechange", _V_.proxy(this, this.update));
-  },
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-mute-control vjs-control",
-      innerHTML: '<div><span class="vjs-control-text">Mute</span></div>'
-    });
-  },
-
-  onClick: function(event){
-    this.player.muted( this.player.muted() ? false : true );
-  },
-
-  update: function(event){
-    var vol = this.player.volume(),
-        level = 3;
-
-    if (vol == 0 || this.player.muted()) {
-      level = 0;
-    } else if (vol < 0.33) {
-      level = 1;
-    } else if (vol < 0.67) {
-      level = 2;
-    }
-
-    /* TODO improve muted icon classes */
-    _V_.each.call(this, [0,1,2,3], function(i){
-      _V_.removeClass(this.el, "vjs-vol-"+i);
-    });
-    _V_.addClass(this.el, "vjs-vol-"+level);
-  }
-
-});
-
-
-/* Poster Image
-================================================================================ */
-_V_.PosterImage = _V_.Button.extend({
-  init: function(player, options){
-    this._super(player, options);
-
-    if (!this.player.options.poster) {
-      this.hide();
-    }
-
-    player.addEvent("play", _V_.proxy(this, this.hide));
-  },
-
-  createElement: function(){
-    return _V_.createElement("img", {
-      className: "vjs-poster",
-      src: this.player.options.poster,
-
-      // Don't want poster to be tabbable.
-      tabIndex: -1
-    });
-  },
-
-  onClick: function(){
-    this.player.play();
-  }
-});
-
-/* Menu
-================================================================================ */
-// The base for text track and settings menu buttons.
-_V_.Menu = _V_.Component.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-  },
-
-  addItem: function(component){
-    this.addComponent(component);
-    component.addEvent("click", this.proxy(function(){
-      this.unlockShowing();
-    }));
-  },
-
-  createElement: function(){
-    return this._super("ul", {
-      className: "vjs-menu"
-    });
-  }
-
-});
-
-_V_.MenuItem = _V_.Button.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-
-    if (options.selected) {
-      this.addClass("vjs-selected");
-    }
-  },
-
-  createElement: function(type, attrs){
-    return this._super("li", _V_.merge({
-      className: "vjs-menu-item",
-      innerHTML: this.options.label
-    }, attrs));
-  },
-
-  onClick: function(){
-    this.selected(true);
-  },
-
-  selected: function(selected){
-    if (selected) {
-      this.addClass("vjs-selected");
-    } else {
-      this.removeClass("vjs-selected")
-    }
-  }
-
-});
-// TEXT TRACKS
-// Text tracks are tracks of timed text events.
-//    Captions - text displayed over the video for the hearing impared
-//    Subtitles - text displayed over the video for those who don't understand langauge in the video
-//    Chapters - text displayed in a menu allowing the user to jump to particular points (chapters) in the video
-//    Descriptions (not supported yet) - audio descriptions that are read back to the user by a screen reading device
-
-// Player Track Functions - Functions add to the player object for easier access to tracks
-_V_.merge(_V_.Player.prototype, {
-
-  // Add an array of text tracks. captions, subtitles, chapters, descriptions
-  // Track objects will be stored in the player.textTracks array
-  addTextTracks: function(trackObjects){
-    var tracks = this.textTracks = (this.textTracks) ? this.textTracks : [],
-        i = 0, j = trackObjects.length, track, Kind;
-
-    for (;i<j;i++) {
-      // HTML5 Spec says default to subtitles.
-      // Uppercase (uc) first letter to match class names
-      Kind = _V_.uc(trackObjects[i].kind || "subtitles");
-
-      // Create correct texttrack class. CaptionsTrack, etc.
-      track = new _V_[Kind + "Track"](this, trackObjects[i]);
-
-      tracks.push(track);
-
-      // If track.default is set, start showing immediately
-      // TODO: Add a process to deterime the best track to show for the specific kind
-      // Incase there are mulitple defaulted tracks of the same kind
-      // Or the user has a set preference of a specific language that should override the default
-      if (track['default']) {
-        this.ready(_V_.proxy(track, track.show));
-      }
-    }
-
-    // Return the track so it can be appended to the display component
-    return this;
-  },
-
-  // Show a text track
-  // disableSameKind: disable all other tracks of the same kind. Value should be a track kind (captions, etc.)
-  showTextTrack: function(id, disableSameKind){
-    var tracks = this.textTracks,
-        i = 0,
-        j = tracks.length,
-        track, showTrack, kind;
-
-    // Find Track with same ID
-    for (;i<j;i++) {
-      track = tracks[i];
-      if (track.id === id) {
-        track.show();
-        showTrack = track;
-
-      // Disable tracks of the same kind
-      } else if (disableSameKind && track.kind == disableSameKind && track.mode > 0) {
-        track.disable();
-      }
-    }
-
-    // Get track kind from shown track or disableSameKind
-    kind = (showTrack) ? showTrack.kind : ((disableSameKind) ? disableSameKind : false);
-
-    // Trigger trackchange event, captionstrackchange, subtitlestrackchange, etc.
-    if (kind) {
-      this.triggerEvent(kind+"trackchange");
-    }
-
-    return this;
-  }
-
-});
-
-// Track Class
-// Contains track methods for loading, showing, parsing cues of tracks
-_V_.Track = _V_.Component.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-
-    // Apply track info to track object
-    // Options will often be a track element
-    _V_.merge(this, {
-      // Build ID if one doesn't exist
-      id: options.id || ("vjs_" + options.kind + "_" + options.language + "_" + _V_.guid++),
-
-      src: options.src,
-
-      // If default is used, subtitles/captions to start showing
-      "default": options["default"], // 'default' is reserved-ish
-      title: options.title,
-
-      // Language - two letter string to represent track language, e.g. "en" for English
-      // readonly attribute DOMString language;
-      language: options.srclang,
-
-      // Track label e.g. "English"
-      // readonly attribute DOMString label;
-      label: options.label,
-
-      // All cues of the track. Cues have a startTime, endTime, text, and other properties.
-      // readonly attribute TextTrackCueList cues;
-      cues: [],
-
-      // ActiveCues is all cues that are currently showing
-      // readonly attribute TextTrackCueList activeCues;
-      activeCues: [],
-
-      // ReadyState describes if the text file has been loaded
-      // const unsigned short NONE = 0;
-      // const unsigned short LOADING = 1;
-      // const unsigned short LOADED = 2;
-      // const unsigned short ERROR = 3;
-      // readonly attribute unsigned short readyState;
-      readyState: 0,
-
-      // Mode describes if the track is showing, hidden, or disabled
-      // const unsigned short OFF = 0;
-      // const unsigned short HIDDEN = 1; (still triggering cuechange events, but not visible)
-      // const unsigned short SHOWING = 2;
-      // attribute unsigned short mode;
-      mode: 0
-    });
-  },
-
-  // Create basic div to hold cue text
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-" + this.kind + " vjs-text-track"
-    });
-  },
-
-  // Show: Mode Showing (2)
-  // Indicates that the text track is active. If no attempt has yet been made to obtain the track's cues, the user agent will perform such an attempt momentarily.
-  // The user agent is maintaining a list of which cues are active, and events are being fired accordingly.
-  // In addition, for text tracks whose kind is subtitles or captions, the cues are being displayed over the video as appropriate;
-  // for text tracks whose kind is descriptions, the user agent is making the cues available to the user in a non-visual fashion;
-  // and for text tracks whose kind is chapters, the user agent is making available to the user a mechanism by which the user can navigate to any point in the media resource by selecting a cue.
-  // The showing by default state is used in conjunction with the default attribute on track elements to indicate that the text track was enabled due to that attribute.
-  // This allows the user agent to override the state if a later track is discovered that is more appropriate per the user's preferences.
-  show: function(){
-    this.activate();
-
-    this.mode = 2;
-
-    // Show element.
-    this._super();
-  },
-
-  // Hide: Mode Hidden (1)
-  // Indicates that the text track is active, but that the user agent is not actively displaying the cues.
-  // If no attempt has yet been made to obtain the track's cues, the user agent will perform such an attempt momentarily.
-  // The user agent is maintaining a list of which cues are active, and events are being fired accordingly.
-  hide: function(){
-    // When hidden, cues are still triggered. Disable to stop triggering.
-    this.activate();
-
-    this.mode = 1;
-
-    // Hide element.
-    this._super();
-  },
-
-  // Disable: Mode Off/Disable (0)
-  // Indicates that the text track is not active. Other than for the purposes of exposing the track in the DOM, the user agent is ignoring the text track.
-  // No cues are active, no events are fired, and the user agent will not attempt to obtain the track's cues.
-  disable: function(){
-    // If showing, hide.
-    if (this.mode == 2) { this.hide(); }
-
-    // Stop triggering cues
-    this.deactivate();
-
-    // Switch Mode to Off
-    this.mode = 0;
-  },
-
-  // Turn on cue tracking. Tracks that are showing OR hidden are active.
-  activate: function(){
-    // Load text file if it hasn't been yet.
-    if (this.readyState == 0) { this.load(); }
-
-    // Only activate if not already active.
-    if (this.mode == 0) {
-      // Update current cue on timeupdate
-      // Using unique ID for proxy function so other tracks don't remove listener
-      this.player.addEvent("timeupdate", this.proxy(this.update, this.id));
-
-      // Reset cue time on media end
-      this.player.addEvent("ended", this.proxy(this.reset, this.id));
-
-      // Add to display
-      if (this.kind == "captions" || this.kind == "subtitles") {
-        this.player.textTrackDisplay.addComponent(this);
-      }
-    }
-  },
-
-  // Turn off cue tracking.
-  deactivate: function(){
-    // Using unique ID for proxy function so other tracks don't remove listener
-    this.player.removeEvent("timeupdate", this.proxy(this.update, this.id));
-    this.player.removeEvent("ended", this.proxy(this.reset, this.id));
-    this.reset(); // Reset
-
-    // Remove from display
-    this.player.textTrackDisplay.removeComponent(this);
-  },
-
-  // A readiness state
-  // One of the following:
-  //
-  // Not loaded
-  // Indicates that the text track is known to exist (e.g. it has been declared with a track element), but its cues have not been obtained.
-  //
-  // Loading
-  // Indicates that the text track is loading and there have been no fatal errors encountered so far. Further cues might still be added to the track.
-  //
-  // Loaded
-  // Indicates that the text track has been loaded with no fatal errors. No new cues will be added to the track except if the text track corresponds to a MutableTextTrack object.
-  //
-  // Failed to load
-  // Indicates that the text track was enabled, but when the user agent attempted to obtain it, this failed in some way (e.g. URL could not be resolved, network error, unknown text track format). Some or all of the cues are likely missing and will not be obtained.
-  load: function(){
-
-    // Only load if not loaded yet.
-    if (this.readyState == 0) {
-      this.readyState = 1;
-      _V_.get(this.src, this.proxy(this.parseCues), this.proxy(this.onError));
-    }
-
-  },
-
-  onError: function(err){
-    this.error = err;
-    this.readyState = 3;
-    this.triggerEvent("error");
-  },
-
-  // Parse the WebVTT text format for cue times.
-  // TODO: Separate parser into own class so alternative timed text formats can be used. (TTML, DFXP)
-  parseCues: function(srcContent) {
-    var cue, time, text,
-        lines = srcContent.split("\n"),
-        line = "", id;
-
-    for (var i=1, j=lines.length; i<j; i++) {
-      // Line 0 should be 'WEBVTT', so skipping i=0
-
-      line = _V_.trim(lines[i]); // Trim whitespace and linebreaks
-
-      if (line) { // Loop until a line with content
-
-        // First line could be an optional cue ID
-        // Check if line has the time separator
-        if (line.indexOf("-->") == -1) {
-          id = line;
-          // Advance to next line for timing.
-          line = _V_.trim(lines[++i]);
-        } else {
-          id = this.cues.length;
-        }
-
-        // First line - Number
-        cue = {
-          id: id, // Cue Number
-          index: this.cues.length // Position in Array
-        };
-
-        // Timing line
-        time = line.split(" --> ");
-        cue.startTime = this.parseCueTime(time[0]);
-        cue.endTime = this.parseCueTime(time[1]);
-
-        // Additional lines - Cue Text
-        text = [];
-
-        // Loop until a blank line or end of lines
-        // Assumeing trim("") returns false for blank lines
-        while (lines[++i] && (line = _V_.trim(lines[i]))) {
-          text.push(line);
-        }
-
-        cue.text = text.join('<br/>');
-
-        // Add this cue
-        this.cues.push(cue);
-      }
-    }
-
-    this.readyState = 2;
-    this.triggerEvent("loaded");
-  },
-
-  parseCueTime: function(timeText) {
-    var parts = timeText.split(':'),
-        time = 0,
-        hours, minutes, other, seconds, ms, flags;
-
-    // Check if optional hours place is included
-    // 00:00:00.000 vs. 00:00.000
-    if (parts.length == 3) {
-      hours = parts[0];
-      minutes = parts[1];
-      other = parts[2];
-    } else {
-      hours = 0;
-      minutes = parts[0];
-      other = parts[1];
-    }
-
-    // Break other (seconds, milliseconds, and flags) by spaces
-    // TODO: Make additional cue layout settings work with flags
-    other = other.split(/\s+/)
-    // Remove seconds. Seconds is the first part before any spaces.
-    seconds = other.splice(0,1)[0];
-    // Could use either . or , for decimal
-    seconds = seconds.split(/\.|,/);
-    // Get milliseconds
-    ms = parseFloat(seconds[1]);
-    seconds = seconds[0];
-
-    // hours => seconds
-    time += parseFloat(hours) * 3600;
-    // minutes => seconds
-    time += parseFloat(minutes) * 60;
-    // Add seconds
-    time += parseFloat(seconds);
-    // Add milliseconds
-    if (ms) { time += ms/1000; }
-
-    return time;
-  },
-
-  // Update active cues whenever timeupdate events are triggered on the player.
-  update: function(){
-    if (this.cues.length > 0) {
-
-      // Get curent player time
-      var time = this.player.currentTime();
-
-      // Check if the new time is outside the time box created by the the last update.
-      if (this.prevChange === undefined || time < this.prevChange || this.nextChange <= time) {
-        var cues = this.cues,
-
-            // Create a new time box for this state.
-            newNextChange = this.player.duration(), // Start at beginning of the timeline
-            newPrevChange = 0, // Start at end
-
-            reverse = false, // Set the direction of the loop through the cues. Optimized the cue check.
-            newCues = [], // Store new active cues.
-
-            // Store where in the loop the current active cues are, to provide a smart starting point for the next loop.
-            firstActiveIndex, lastActiveIndex,
-
-            html = "", // Create cue text HTML to add to the display
-            cue, i, j; // Loop vars
-
-        // Check if time is going forwards or backwards (scrubbing/rewinding)
-        // If we know the direction we can optimize the starting position and direction of the loop through the cues array.
-        if (time >= this.nextChange || this.nextChange === undefined) { // NextChange should happen
-          // Forwards, so start at the index of the first active cue and loop forward
-          i = (this.firstActiveIndex !== undefined) ? this.firstActiveIndex : 0;
-        } else {
-          // Backwards, so start at the index of the last active cue and loop backward
-          reverse = true;
-          i = (this.lastActiveIndex !== undefined) ? this.lastActiveIndex : cues.length - 1;
-        }
-
-        while (true) { // Loop until broken
-          cue = cues[i];
-
-          // Cue ended at this point
-          if (cue.endTime <= time) {
-            newPrevChange = Math.max(newPrevChange, cue.endTime);
-
-            if (cue.active) {
-              cue.active = false;
-            }
-
-            // No earlier cues should have an active start time.
-            // Nevermind. Assume first cue could have a duration the same as the video.
-            // In that case we need to loop all the way back to the beginning.
-            // if (reverse && cue.startTime) { break; }
-
-          // Cue hasn't started
-          } else if (time < cue.startTime) {
-            newNextChange = Math.min(newNextChange, cue.startTime);
-
-            if (cue.active) {
-              cue.active = false;
-            }
-
-            // No later cues should have an active start time.
-            if (!reverse) { break; }
-
-          // Cue is current
-          } else {
-
-            if (reverse) {
-              // Add cue to front of array to keep in time order
-              newCues.splice(0,0,cue);
-
-              // If in reverse, the first current cue is our lastActiveCue
-              if (lastActiveIndex === undefined) { lastActiveIndex = i; }
-              firstActiveIndex = i;
-            } else {
-              // Add cue to end of array
-              newCues.push(cue);
-
-              // If forward, the first current cue is our firstActiveIndex
-              if (firstActiveIndex === undefined) { firstActiveIndex = i; }
-              lastActiveIndex = i;
-            }
-
-            newNextChange = Math.min(newNextChange, cue.endTime);
-            newPrevChange = Math.max(newPrevChange, cue.startTime);
-
-            cue.active = true;
-          }
-
-          if (reverse) {
-            // Reverse down the array of cues, break if at first
-            if (i === 0) { break; } else { i--; }
-          } else {
-            // Walk up the array fo cues, break if at last
-            if (i === cues.length - 1) { break; } else { i++; }
-          }
-
-        }
-
-        this.activeCues = newCues;
-        this.nextChange = newNextChange;
-        this.prevChange = newPrevChange;
-        this.firstActiveIndex = firstActiveIndex;
-        this.lastActiveIndex = lastActiveIndex;
-
-        this.updateDisplay();
-
-        this.triggerEvent("cuechange");
-      }
-    }
-  },
-
-  // Add cue HTML to display
-  updateDisplay: function(){
-    var cues = this.activeCues,
-        html = "",
-        i=0,j=cues.length;
-
-    for (;i<j;i++) {
-      html += "<span class='vjs-tt-cue'>"+cues[i].text+"</span>";
-    }
-
-    this.el.innerHTML = html;
-  },
-
-  // Set all loop helper values back
-  reset: function(){
-    this.nextChange = 0;
-    this.prevChange = this.player.duration();
-    this.firstActiveIndex = 0;
-    this.lastActiveIndex = 0;
-  }
-
-});
-
-// Create specific track types
-_V_.CaptionsTrack = _V_.Track.extend({
-  kind: "captions"
-});
-
-_V_.SubtitlesTrack = _V_.Track.extend({
-  kind: "subtitles"
-});
-
-_V_.ChaptersTrack = _V_.Track.extend({
-  kind: "chapters"
-});
-
-
-/* Text Track Display
-================================================================================ */
-// Global container for both subtitle and captions text. Simple div container.
-_V_.TextTrackDisplay = _V_.Component.extend({
-
-  createElement: function(){
-    return this._super("div", {
-      className: "vjs-text-track-display"
-    });
-  }
-
-});
-
-/* Text Track Menu Items
-================================================================================ */
-_V_.TextTrackMenuItem = _V_.MenuItem.extend({
-
-  init: function(player, options){
-    var track = this.track = options.track;
-
-    // Modify options for parent MenuItem class's init.
-    options.label = track.label;
-    options.selected = track["default"];
-    this._super(player, options);
-
-    this.player.addEvent(track.kind + "trackchange", _V_.proxy(this, this.update));
-  },
-
-  onClick: function(){
-    this._super();
-    this.player.showTextTrack(this.track.id, this.track.kind);
-  },
-
-  update: function(){
-    if (this.track.mode == 2) {
-      this.selected(true);
-    } else {
-      this.selected(false);
-    }
-  }
-
-});
-
-_V_.OffTextTrackMenuItem = _V_.TextTrackMenuItem.extend({
-
-  init: function(player, options){
-    // Create pseudo track info
-    // Requires options.kind
-    options.track = { kind: options.kind, player: player, label: "Off" }
-    this._super(player, options);
-  },
-
-  onClick: function(){
-    this._super();
-    this.player.showTextTrack(this.track.id, this.track.kind);
-  },
-
-  update: function(){
-    var tracks = this.player.textTracks,
-        i=0, j=tracks.length, track,
-        off = true;
-
-    for (;i<j;i++) {
-      track = tracks[i];
-      if (track.kind == this.track.kind && track.mode == 2) {
-        off = false;
-      }
-    }
-
-    if (off) {
-      this.selected(true);
-    } else {
-      this.selected(false);
-    }
-  }
-
-});
-
-/* Captions Button
-================================================================================ */
-_V_.TextTrackButton = _V_.Button.extend({
-
-  init: function(player, options){
-    this._super(player, options);
-
-    this.menu = this.createMenu();
-
-    if (this.items.length === 0) {
-      this.hide();
-    }
-  },
-
-  createMenu: function(){
-    var menu = new _V_.Menu(this.player);
-
-    // Add a title list item to the top
-    menu.el.appendChild(_V_.createElement("li", {
-      className: "vjs-menu-title",
-      innerHTML: _V_.uc(this.kind)
-    }));
-
-    // Add an OFF menu item to turn all tracks off
-    menu.addItem(new _V_.OffTextTrackMenuItem(this.player, { kind: this.kind }))
-
-    this.items = this.createItems();
-
-    // Add menu items to the menu
-    this.each(this.items, function(item){
-      menu.addItem(item);
-    });
-
-    // Add list to element
-    this.addComponent(menu);
-
-    return menu;
-  },
-
-  // Create a menu item for each text track
-  createItems: function(){
-    var items = [];
-    this.each(this.player.textTracks, function(track){
-      if (track.kind === this.kind) {
-        items.push(new _V_.TextTrackMenuItem(this.player, {
-          track: track
-        }));
-      }
-    });
-    return items;
-  },
-
-  buildCSSClass: function(){
-    return this.className + " vjs-menu-button " + this._super();
-  },
-
-  // Focus - Add keyboard functionality to element
-  onFocus: function(){
-    // Show the menu, and keep showing when the menu items are in focus
-    this.menu.lockShowing();
-    // this.menu.el.style.display = "block";
-
-    // When tabbing through, the menu should hide when focus goes from the last menu item to the next tabbed element.
-    _V_.one(this.menu.el.childNodes[this.menu.el.childNodes.length - 1], "blur", this.proxy(function(){
-      this.menu.unlockShowing();
-    }));
-  },
-  // Can't turn off list display that we turned on with focus, because list would go away.
-  onBlur: function(){},
-
-  onClick: function(){
-    // When you click the button it adds focus, which will show the menu indefinitely.
-    // So we'll remove focus when the mouse leaves the button.
-    // Focus is needed for tab navigation.
-    this.one("mouseout", this.proxy(function(){
-      this.menu.unlockShowing();
-      this.el.blur();
-    }));
-  }
-
-});
-
-_V_.CaptionsButton = _V_.TextTrackButton.extend({
-  kind: "captions",
-  buttonText: "Captions",
-  className: "vjs-captions-button"
-});
-
-_V_.SubtitlesButton = _V_.TextTrackButton.extend({
-  kind: "subtitles",
-  buttonText: "Subtitles",
-  className: "vjs-subtitles-button"
-});
-
-// Chapters act much differently than other text tracks
-// Cues are navigation vs. other tracks of alternative languages
-_V_.ChaptersButton = _V_.TextTrackButton.extend({
-  kind: "chapters",
-  buttonText: "Chapters",
-  className: "vjs-chapters-button",
-
-  // Create a menu item for each text track
-  createItems: function(chaptersTrack){
-    var items = [];
-
-    this.each(this.player.textTracks, function(track){
-      if (track.kind === this.kind) {
-        items.push(new _V_.TextTrackMenuItem(this.player, {
-          track: track
-        }));
-      }
-    });
-
-    return items;
-  },
-
-  createMenu: function(){
-    var tracks = this.player.textTracks,
-        i = 0,
-        j = tracks.length,
-        track, chaptersTrack,
-        items = this.items = [];
-
-    for (;i<j;i++) {
-      track = tracks[i];
-      if (track.kind == this.kind && track["default"]) {
-        if (track.readyState < 2) {
-          this.chaptersTrack = track;
-          track.addEvent("loaded", this.proxy(this.createMenu));
-          return;
-        } else {
-          chaptersTrack = track;
-          break;
-        }
-      }
-    }
-
-    var menu = this.menu = new _V_.Menu(this.player);
-
-    menu.el.appendChild(_V_.createElement("li", {
-      className: "vjs-menu-title",
-      innerHTML: _V_.uc(this.kind)
-    }));
-
-    if (chaptersTrack) {
-      var cues = chaptersTrack.cues,
-          i = 0, j = cues.length, cue, mi;
-
-      for (;i<j;i++) {
-        cue = cues[i];
-
-        mi = new _V_.ChaptersTrackMenuItem(this.player, {
-          track: chaptersTrack,
-          cue: cue
-        });
-
-        items.push(mi);
-
-        menu.addComponent(mi);
-      }
-    }
-
-    // Add list to element
-    this.addComponent(menu);
-
-    if (this.items.length > 0) {
-      this.show();
-    }
-
-    return menu;
-  }
-
-});
-
-_V_.ChaptersTrackMenuItem = _V_.MenuItem.extend({
-
-  init: function(player, options){
-    var track = this.track = options.track,
-        cue = this.cue = options.cue,
-        currentTime = player.currentTime();
-
-    // Modify options for parent MenuItem class's init.
-    options.label = cue.text;
-    options.selected = (cue.startTime <= currentTime && currentTime < cue.endTime);
-    this._super(player, options);
-
-    track.addEvent("cuechange", _V_.proxy(this, this.update));
-  },
-
-  onClick: function(){
-    this._super();
-    this.player.currentTime(this.cue.startTime);
-    this.update(this.cue.startTime);
-  },
-
-  update: function(time){
-    var cue = this.cue,
-        currentTime = this.player.currentTime();
-
-    // _V_.log(currentTime, cue.startTime);
-    if (cue.startTime <= currentTime && currentTime < cue.endTime) {
-      this.selected(true);
-    } else {
-      this.selected(false);
-    }
-  }
-
-});
-
-// Add Buttons to controlBar
-_V_.merge(_V_.ControlBar.prototype.options.components, {
-  "subtitlesButton": {},
-  "captionsButton": {},
-  "chaptersButton": {}
-});
-
-// _V_.Cue = _V_.Component.extend({
-//   init: function(player, options){
-//     this._super(player, options);
-//   }
-// });// Automatically set up any tags that have a data-setup attribute
+// FILE: src/setup.js
+// Automatically set up any tags that have a data-setup attribute
 _V_.autoSetup = function(){
   var options, vid, player,
       vids = document.getElementsByTagName("video");
@@ -4579,6 +4442,8 @@ _V_.addEvent(window, "load", function(){
 
 // Run Auto-load players
 _V_.autoSetup();
+// FILE: src/_end.js
+
 // Expose to global
 window.VideoJS = window._V_ = VideoJS;
 
