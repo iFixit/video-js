@@ -98,7 +98,6 @@ _V_.Button = _V_.Control.extend({
     // Check for space bar (32) or enter (13) keys
     if (event.which == 32 || event.which == 13) {
       event.preventDefault();
-      this.onClick();
     }
   },
 

@@ -3792,6 +3792,14 @@ _V_.html5 = _V_.PlaybackTech.extend({
     return el;
   },
 
+  // KeyPress (document level) - Trigger click when keys are pressed
+  onKeyPress: function(event){
+    // Check for space bar (32) or enter (13) keys
+    if (event.which == 32 || event.which == 13) {
+      event.preventDefault();
+    }
+  },
+
   // Make video events trigger player events
   // May seem verbose here, but makes other APIs possible.
   setupTriggers: function(){
@@ -3799,6 +3807,7 @@ _V_.html5 = _V_.PlaybackTech.extend({
       _V_.addEvent(this.el, type, _V_.proxy(this.player, this.eventHandler));
     });
   },
+
   removeTriggers: function(){
     _V_.each.call(this, _V_.html5.events, function(type){
       _V_.removeEvent(this.el, type, _V_.proxy(this.player, this.eventHandler));
