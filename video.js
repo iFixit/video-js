@@ -1315,10 +1315,10 @@ _V_.Player = _V_.Component.extend({
       if (!this.support.timeupdateEvent) {
         this.player.manualTimeUpdatesOn();
       }
-    }
+    };
 
     // Grab tech-specific options from player options and add source and parent element to use.
-    var techOptions = _V_.merge({ source: source, parentEl: this.el }, this.options[techName])
+    var techOptions = _V_.merge({ source: source, parentEl: this.el }, this.options[techName]);
 
     if (source) {
       if (source.src == this.values.src && this.values.currentTime > 0) {
@@ -1763,7 +1763,7 @@ _V_.Player = _V_.Component.extend({
 
        _V_.on(document, requestFullScreen.eventName, this.proxy(function(){
          _V_.removeEvent(document, requestFullScreen.eventName, arguments.callee);
-         this.loadTech(this.techName, { src: this.values.src })
+         this.loadTech(this.techName, { src: this.values.src });
        }));
 
        document[requestFullScreen.cancelFn]();
@@ -1968,7 +1968,7 @@ _V_.Player = _V_.Component.extend({
     this.currentTime(0);
     this.pause();
     this.play();    
-  },
+  }
 
   // Methods to add support for
   // networkState: function(){ return this.techCall("networkState"); },
@@ -2334,10 +2334,10 @@ _V_.LoadingSpinner = _V_.Component.extend({
 
     var classNameSpinner, innerHtmlSpinner;
 
-    if ( typeof this.player.el.style.WebkitBorderRadius == "string"
-         || typeof this.player.el.style.MozBorderRadius == "string"
-         || typeof this.player.el.style.KhtmlBorderRadius == "string"
-         || typeof this.player.el.style.borderRadius == "string")
+    if (typeof this.player.el.style.WebkitBorderRadius == "string" || 
+        typeof this.player.el.style.MozBorderRadius == "string" || 
+        typeof this.player.el.style.KhtmlBorderRadius == "string" || 
+        typeof this.player.el.style.borderRadius == "string")
       {
         classNameSpinner = "vjs-loading-spinner";
         innerHtmlSpinner = "<div class='ball1'></div><div class='ball2'></div><div class='ball3'></div><div class='ball4'></div><div class='ball5'></div><div class='ball6'></div><div class='ball7'></div><div class='ball8'></div>";
@@ -2538,13 +2538,13 @@ _V_.Slider = _V_.Component.extend({
 
           // Get the adjusted size of the box, considering that the handle's center never touches the left or right side.
           // There is a margin of half the handle's width on both sides.
-          boxAdjustedPercent = 1 - handlePercent;
+          boxAdjustedPercent = 1 - handlePercent,
 
           // Adjust the progress that we'll use to set widths to the new adjusted box width
-          adjustedProgress = progress * boxAdjustedPercent,
+          adjustedProgress = progress * boxAdjustedPercent;
 
-          // The bar does reach the left side, so we need to account for this in the bar's width
-          barProgress = adjustedProgress + (handlePercent / 2);
+      // The bar does reach the left side, so we need to account for this in the bar's width
+      barProgress = adjustedProgress + (handlePercent / 2);
 
       // Move the handle from the left based on the adjected progress
       handle.el.style.left = _V_.round(adjustedProgress * 100, 2) + "%";
@@ -2620,7 +2620,7 @@ _V_.SeekBar = _V_.Slider.extend({
       "loadProgressBar": {},
 
       // Set property names to bar and handle to match with the parent Slider class is looking for
-      "bar": { componentClass: "PlayProgressBar" },
+      "bar": { componentClass: "PlayProgressBar" }
       //"handle": { componentClass: "SeekHandle" }
     }
   },
@@ -2826,7 +2826,7 @@ _V_.MuteToggle = _V_.Button.extend({
     var vol = this.player.volume(),
         level = 3;
 
-    if (vol == 0 || this.player.muted()) {
+    if (vol === 0 || this.player.muted()) {
       level = 0;
     } else if (vol < 0.33) {
       level = 1;
@@ -2921,7 +2921,7 @@ _V_.MenuItem = _V_.Button.extend({
     if (selected) {
       this.addClass("vjs-selected");
     } else {
-      this.removeClass("vjs-selected")
+      this.removeClass("vjs-selected");
     }
   }
 

@@ -209,10 +209,10 @@ _V_.Player = _V_.Component.extend({
       if (!this.support.timeupdateEvent) {
         this.player.manualTimeUpdatesOn();
       }
-    }
+    };
 
     // Grab tech-specific options from player options and add source and parent element to use.
-    var techOptions = _V_.merge({ source: source, parentEl: this.el }, this.options[techName])
+    var techOptions = _V_.merge({ source: source, parentEl: this.el }, this.options[techName]);
 
     if (source) {
       if (source.src == this.values.src && this.values.currentTime > 0) {
@@ -657,7 +657,7 @@ _V_.Player = _V_.Component.extend({
 
        _V_.on(document, requestFullScreen.eventName, this.proxy(function(){
          _V_.removeEvent(document, requestFullScreen.eventName, arguments.callee);
-         this.loadTech(this.techName, { src: this.values.src })
+         this.loadTech(this.techName, { src: this.values.src });
        }));
 
        document[requestFullScreen.cancelFn]();
@@ -862,7 +862,7 @@ _V_.Player = _V_.Component.extend({
     this.currentTime(0);
     this.pause();
     this.play();    
-  },
+  }
 
   // Methods to add support for
   // networkState: function(){ return this.techCall("networkState"); },
