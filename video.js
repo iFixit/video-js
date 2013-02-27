@@ -2095,7 +2095,7 @@ _V_.ControlBar = _V_.Component.extend({
       //"currentTimeDisplay": {},
       //"timeDivider": {},
       //"durationDisplay": {},
-      "restartControl": {},
+      //"restartControl": {},
       "remainingTimeDisplay": {},
       "progressControl": {},
       "volumeControl": {},
