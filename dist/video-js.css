@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: VideoJS;
-  src: url('<?= SalesURI::siteFile("videos/video-js-font") ?>/VideoJS.eot?#iefix') format("eot"); }
+  src: url('<?= BaseURI::staticFile("videos/video-js-font") ?>/VideoJS.eot?#iefix') format("eot"); }
 
 @font-face {
   font-family: VideoJS;
